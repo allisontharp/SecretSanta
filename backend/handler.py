@@ -11,6 +11,7 @@ def getGroup(event, context):
     }
 
     response = {
+        "headers": {'Access-Control-Allow-Origin': '*','Access-Control-Allow-Credentials': True},
         "statusCode": 200,
         "body": json.dumps(body)
     }
@@ -18,12 +19,14 @@ def getGroup(event, context):
     return response
 
 def insertGroup(event, context):
+    r = insertItemToTable('secretSanta', event)
     body = {
         "message": "Go Serverless v1.0! Your function executed successfully!",
         "input": event
     }
 
     response = {
+        "headers": {'Access-Control-Allow-Origin': '*','Access-Control-Allow-Credentials': True},
         "statusCode": 200,
         "body": json.dumps(body)
     }

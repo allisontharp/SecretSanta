@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigServiceService } from '../services/configservice/config-service.service';
 
 @Component({
   selector: 'app-admin',
@@ -6,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  constructor() { }
+  constructor(
+    private apiService: ConfigServiceService
+  ) { }
 
   ngOnInit(): void {
+    console.log('onInit')
+    var x =  this.apiService.getGroups('first');
+    console.log(x)
   }
   
 

@@ -18,12 +18,14 @@ functions:
      - http:
           path: getGroup/{groupName}
           method: get
+          cors: true
   insertGroup:
     handler: handler.insertGroup
     events:
      - http:
           path: insertGroup
           method: post
+          cors: true
 
 
   
