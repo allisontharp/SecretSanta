@@ -25,5 +25,9 @@ def getItemsFromTable(tableName, filterExpression = ''):
     return finalTable 
 
 def insertItemToTable(tableName, item):
+    print('insertItemToTable')
+    print(tableName)
+    print(item)
+    print(type(item))
     table = dynamodb.Table(tableName)
     table.put_item(Item = item)

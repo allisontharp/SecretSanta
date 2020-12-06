@@ -31,14 +31,20 @@
                         </div>
                     </div>
                     <div class="form-group">
-                            <label for="groupRules">Additional Rules / Description</label>
-                            <input type="text" class="form-control" [(ngModel)]="groupRules" name="groupRules">
-                        </div>
+                        <div class="form-group"> <!-- Date input -->
+                            <label class="control-label" for="date">Deadline</label>
+                            <input class="form-control" [(ngModel)]="groupDeadline" name="groupDeadline" placeholder="MM/DD/YYY" type="date" />
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="groupRules">Additional Rules / Description</label>
+                        <input type="text" class="form-control" [(ngModel)]="groupRules" name="groupRules">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Save changes</button>
+                <button type="button" class="btn btn-success" (click)="submit()">Save changes</button>
             </div>
         </div>
     </div>

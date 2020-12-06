@@ -19,10 +19,16 @@ def getGroup(event, context):
     return response
 
 def insertGroup(event, context):
-    r = insertItemToTable('secretSanta', event)
+    print('insertGroup')
+    body = event['body']
+    print(type(body))
+    print(json.loads(body))
+    print(type(json.loads(body)))
+    r = insertItemToTable('secretSanta', json.loads(body))
     body = {
         "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
+        "input": event,
+        "r": r
     }
 
     response = {
