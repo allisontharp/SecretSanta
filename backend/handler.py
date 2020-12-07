@@ -103,4 +103,6 @@ def generateMatches(event, context):
         "body": json.dumps(body)
     }
 
+    r = sendEmail('allison.tharp@gmail.com','allison@techtrek.io','')
+    print(r)
     return response

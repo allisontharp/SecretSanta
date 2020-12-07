@@ -1,7 +1,6 @@
 import random
 import json
 
-
 def generateSecretSantas(group):
     households = [h['houseHolds'] for h in group if h['userName'] == 'General'][0]
     participants = [p for p in group if p['userName'] != 'General']
@@ -46,3 +45,6 @@ def generateSecretSantas(group):
     if isComplete:
         return matchDictionary
 
+
+def sendEmail(sender,recipient,participantPreferences):
+   
