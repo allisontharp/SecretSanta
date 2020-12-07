@@ -19,7 +19,7 @@
         *ngFor="let group of groups">
         <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">{{group.groupName}}</h5>
+                    <h5 class="card-title"><a href="/Group/{{group.groupName}}" class="card-link">{{group.groupName}}</a></h5>
                     <p>${{group.dollarMinimum}}-${{group.dollarMaximum}}</p>
                     <p><b>Deadline: </b>{{group.groupDeadline}}</p>
                     <b>Rules:</b> 

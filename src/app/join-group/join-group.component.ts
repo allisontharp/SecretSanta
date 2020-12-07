@@ -22,6 +22,7 @@ export class JoinGroupComponent implements OnInit {
   dynamoDbRow: IDyanamoDb = <IDyanamoDb> {};
   households: any[] = [];
   group: any;
+  groupDetails: IGroup = <IGroup> {};
 
   constructor(
     private route: ActivatedRoute,
@@ -43,8 +44,9 @@ export class JoinGroupComponent implements OnInit {
     await this.getParticipants();
     await this.getGroup();
     await this.getHouseholds();
-    console.log(this.households)
-    console.log(this.group);
+    console.log('groupDetails:')
+    console.log(this.groupDetails);
+    console.log(this.groupDetails.dollarMinimum)
   }
 
   async getParticipants() {
@@ -66,16 +68,13 @@ export class JoinGroupComponent implements OnInit {
     var group = this.group.filter(function (x:IDyanamoDb) {
       return x.userName == "General"
     })
-    console.log('group')
-    console.log(group)
+    this.groupDetails = JSON.parse(group[0].jsonObject);
     if(!!group[0].houseHolds){
       this.households = group[0].houseHolds 
     }
   }
 
   async submit() {
-    console.log(this.householdName);
-    console.log(this.participants)
     var inGroup = this.participants.filter(function (participant) {
       return participant.checked == true;
     });
@@ -89,9 +88,6 @@ export class JoinGroupComponent implements OnInit {
     this.dynamoDbRow.groupName = this.groupName;
     this.dynamoDbRow.userName = 'General';
     this.dynamoDbRow.households = this.households;
-
-    console.log(this.participantsInGroup);
-    console.log(x);
 
     await this.apiService.updateParticipants(this.dynamoDbRow)
   }

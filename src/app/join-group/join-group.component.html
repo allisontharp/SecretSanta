@@ -1,4 +1,18 @@
+<p></p>
 <app-form [groupName]="groupName"></app-form>
+<div class="card-deck" style="margin-left: 5px; margin-top: 25px">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{groupDetails.groupName}}</h5>
+            <p>${{groupDetails.dollarMinimum}}-${{groupDetails.dollarMaximum}}</p>
+            <p><b>We'll try to trade gifts on: </b>{{groupDetails.groupDeadline}}</p>
+            <b>Rules:</b>
+            <p class="card-text">{{groupDetails.groupRules}}</p>
+        </div>
+    </div>
+</div>
+
+
 <p>
     <b>Current Participants: </b>
 </p>
@@ -16,10 +30,10 @@
     <div class="col-xs-2 col-sm2 col-md-2 col-lg-2 col-xl-2 padding-b-5" *ngFor="let h of households">
         <ul class="list-group">
             <li class="list-group-item"><b>{{h.householdName}}:</b>
-            <div  *ngFor="let hp of h.householdParticipants">
-                {{hp}}
-            </div>
-        </li>
+                <div *ngFor="let hp of h.householdParticipants">
+                    {{hp}}
+                </div>
+            </li>
         </ul>
     </div>
     <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#createHousehold">
