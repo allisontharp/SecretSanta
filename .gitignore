@@ -20,3 +20,4 @@ src/environments/*
 # Serverless directories
 .serverless
 src/environments/environment.ts
+backend/config.py
