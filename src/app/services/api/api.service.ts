@@ -38,13 +38,11 @@ export class ApiService {
 
   updateParticipants(dynamoDbRow: IDyanamoDb): any {
     const url = this.apiUrl + '/updateHouseholds';
-    console.log(url);
     return this.http.post(url, dynamoDbRow, {responseType: 'text'}).toPromise();
   }
 
   sendSecretSantaEmails(group: IGroup): any{
     const url = this.apiUrl + '/generateMatches';
-    console.log(url);
     return this.http.post(url, group, {responseType: 'text'}).toPromise();
   }
 

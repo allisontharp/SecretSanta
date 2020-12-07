@@ -44,9 +44,6 @@ export class JoinGroupComponent implements OnInit {
     await this.getParticipants();
     await this.getGroup();
     await this.getHouseholds();
-    console.log('groupDetails:')
-    console.log(this.groupDetails);
-    console.log(this.groupDetails.dollarMinimum)
   }
 
   async getParticipants() {
@@ -93,7 +90,7 @@ export class JoinGroupComponent implements OnInit {
   }
 
   async sendEmails(){
-    console.log(this.group)
+    (this.group)
     await this.apiService.sendSecretSantaEmails(this.group)
   }
 

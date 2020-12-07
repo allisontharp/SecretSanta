@@ -12,7 +12,6 @@ def generateSecretSantas(group, tryNumber):
     validMatches = True
 
     if (tryNumber <= maxTries):
-        print(tryNumber)
         matchDictionary = {} # santa: child
         participantsWithoutSanta = participants.copy()
         random.shuffle(participants)

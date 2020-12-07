@@ -17,7 +17,6 @@ export class AdminComponent implements OnInit {
 
   async ngOnInit() {
     await this.getGroups();
-    console.log(this.groups);
   }
   
   async getGroups(){

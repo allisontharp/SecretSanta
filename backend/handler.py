@@ -1,5 +1,4 @@
 import json
-from pprint import pprint
 from DynamoFuncs import *
 from SecretSantaFuncs import *
 from email.mime.text import MIMEText

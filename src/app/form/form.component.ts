@@ -51,7 +51,6 @@ export class FormComponent implements OnInit {
     this.dynamoDbRow.groupName = this.groupName;
     this.dynamoDbRow.userName = this.participantName;
     this.dynamoDbRow.jsonObject = JSON.stringify(this.participant);
-    console.log(this.dynamoDbRow);
     await this.apiService.insertRow(this.dynamoDbRow);
     window.location.reload();
   }
