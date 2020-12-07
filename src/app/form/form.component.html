@@ -1,70 +1,89 @@
-<form>
-    <div class="row">
-        <div class="col">
-            <label for="participantName">Name</label>
-            <input type="text" class="form-control" [(ngModel)]="participantName" name="participantName" required>
-            <div class="valid-feedback">
-                Looks good!
+<button type="submit" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+    Join Group
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Secret Santa Group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col">
+                            <label for="participantName">Name</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantName" name="participantName"
+                                required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="participantEmail">Email address</label>
+                            <input type="email" class="form-control" [(ngModel)]="participantEmail" name="participantEmail">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="participantColor">Favorite Color</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantColor" name="participantColor">
+                        </div>
+
+                        <div class="col">
+                            <label for="participantFood">Favorite food/candy/snack</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantFood" name="participantFood">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="participantTeam">Favorite sports team(s) and/or fictional character</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantTeam" name="participantTeam">
+                        </div>
+
+                        <div class="col">
+                            <label for="participantScent">Favorite scent for the home</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantScent" name="participantScent">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="participantStore">Stores I love just about everything</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantStore" name="participantStore">
+                        </div>
+
+                        <div class="col">
+                            <label for="participantGadget">Gadgets/tools I want</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantGadget" name="participantGadget">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="participantEnough">Thanks, but I have enough</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantEnough" name="participantEnough">
+                        </div>
+
+                        <div class="col">
+                            <label for="participantEnjoy">I think I would really enjoy</label>
+                            <input type="text" class="form-control" [(ngModel)]="participantEnjoy" name="participantEnjoy">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="participantMisc">Anything Else:</label>
+                        <input type="text" class="form-control" [(ngModel)]="participantMisc" name="participantMisc">
+                    </div>
+
+                    <button type="submit" class="btn btn-success" (click)="submit()">Submit</button>
+                </form>
             </div>
         </div>
-        <div class="col">
-            <label for="participantEmail">Email address</label>
-            <input type="email" class="form-control" [(ngModel)]="participantEmail" name="participantEmail">
-        </div>
     </div>
-
-    <div class="row">
-        <div class="col">
-            <label for="participantColor">Favorite Color</label>
-            <input type="text" class="form-control" [(ngModel)]="participantColor" name="participantColor">
-        </div>
-
-        <div class="col">
-            <label for="participantFood">Favorite food/candy/snack</label>
-            <input type="text" class="form-control" [(ngModel)]="participantFood" name="participantFood">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <label for="participantTeam">Favorite sports team(s) and/or fictional character</label>
-            <input type="text" class="form-control" [(ngModel)]="participantTeam" name="participantTeam">
-        </div>
-
-        <div class="col">
-            <label for="participantScent">Favorite scent for the home</label>
-            <input type="text" class="form-control" [(ngModel)]="participantScent" name="participantScent">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <label for="participantStore">Stores I love just about everything</label>
-            <input type="text" class="form-control" [(ngModel)]="participantStore" name="participantStore">
-        </div>
-
-        <div class="col">
-            <label for="participantGadget">Gadgets/tools I want</label>
-            <input type="text" class="form-control" [(ngModel)]="participantGadget" name="participantGadget">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <label for="participantEnough">Thanks, but I have enough</label>
-            <input type="text" class="form-control" [(ngModel)]="participantEnough" name="participantEnough">
-        </div>
-
-        <div class="col">
-            <label for="participantEnjoy">I think I would really enjoy</label>
-            <input type="text" class="form-control" [(ngModel)]="participantEnjoy" name="participantEnjoy">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="participantMisc">Anything Else:</label>
-        <input type="text" class="form-control" [(ngModel)]="participantMisc" name="participantMisc">
-    </div>
-
-    <button type="submit" class="btn btn-success" (click)="submit()">Submit</button>
-</form>
+</div>

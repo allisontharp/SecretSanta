@@ -19,14 +19,41 @@ functions:
           path: getGroup/{groupName}
           method: get
           cors: true
-  insertGroup:
-    handler: handler.insertGroup
+  getGroups:
+    handler: handler.getGroups
     events:
      - http:
-          path: insertGroup
+          path: getGroups
+          method: get
+          cors: true
+  insertRow:
+    handler: handler.insertRow
+    events:
+     - http:
+          path: insertRow
           method: post
           cors: true
-
+  getParticipants:
+    handler: handler.getParticipants
+    events:
+     - http:
+          path: getParticipants/{groupName}
+          method: get
+          cors: true
+  updateHouseholds:
+      handler: handler.updateHouseholds
+      events:
+      - http:
+            path: updateHouseholds
+            method: post
+            cors: true
+  generateMatches:
+      handler: handler.generateMatches
+      events:
+      - http:
+            path: generateMatches
+            method: post
+            cors: true
 
   
 

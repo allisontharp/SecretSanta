@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api/api.service';
+import { IGroup } from '../models/group.model';
+import { IDyanamoDb } from '../models/dynamoDb.model';
 
 @Component({
   selector: 'app-admin',
@@ -7,12 +9,24 @@ import { ApiService } from '../services/api/api.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  groups: IGroup[] = [];
+  dbResult: IDyanamoDb[] = [];
   constructor(
     private apiService: ApiService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.getGroups();
+    console.log(this.groups);
   }
   
+  async getGroups(){
+    var g = await this.apiService.getGroups();
+    this.dbResult = g.result;
+    this.dbResult.forEach(group => {
+      let r: IGroup = JSON.parse(group.jsonObject)
+      this.groups.push(r);
+    });
+  }
 
 }

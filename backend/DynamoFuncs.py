@@ -25,9 +25,17 @@ def getItemsFromTable(tableName, filterExpression = ''):
     return finalTable 
 
 def insertItemToTable(tableName, item):
-    print('insertItemToTable')
-    print(tableName)
-    print(item)
-    print(type(item))
     table = dynamodb.Table(tableName)
     table.put_item(Item = item)
+
+
+def updateItem(tableName, key, updateExpression, expressionAttributeValues):
+    table = dynamodb.Table(tableName)
+    response = table.update_item(
+        Key = key,
+        UpdateExpression=updateExpression,
+        ExpressionAttributeValues=expressionAttributeValues,
+        ReturnValues="UPDATED_NEW"
+    )
+    return response
+

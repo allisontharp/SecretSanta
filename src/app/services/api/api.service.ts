@@ -17,20 +17,35 @@ export class ApiService {
   }
 
   getGroups(): any {
-    // const url = this.apiUrl + '/getGroup/';
-    // console.log(url);
-    // return this.http.get(url).toPromise();
+    const url = this.apiUrl + '/getGroups';
+    return this.http.get(url).toPromise();
   }
 
   getGroup(groupName: string): any {
     const url = this.apiUrl + '/getGroup/' + groupName;
-    console.log(url);
     return this.http.get(url).toPromise();
   }
 
-  insertGroup(dynamoDbRow: IDyanamoDb): any{
-    const url = this.apiUrl + '/insertGroup';
-
+  insertRow(dynamoDbRow: IDyanamoDb): any{
+    const url = this.apiUrl + '/insertRow';
     return this.http.post(url, dynamoDbRow, {responseType: 'text'}).toPromise();
   }
+
+  getParticipants(groupName: string): any {
+    const url = this.apiUrl + '/getParticipants/' + groupName;
+    return this.http.get(url).toPromise();
+  }
+
+  updateParticipants(dynamoDbRow: IDyanamoDb): any {
+    const url = this.apiUrl + '/updateHouseholds';
+    console.log(url);
+    return this.http.post(url, dynamoDbRow, {responseType: 'text'}).toPromise();
+  }
+
+  sendSecretSantaEmails(group: IGroup): any{
+    const url = this.apiUrl + '/generateMatches';
+    console.log(url);
+    return this.http.post(url, group, {responseType: 'text'}).toPromise();
+  }
+
 }

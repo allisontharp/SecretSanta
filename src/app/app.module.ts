@@ -9,6 +9,7 @@ import { FormComponent } from './form/form.component';
 import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 import { AddGroupComponent } from './add-group/add-group.component';
+import { JoinGroupComponent } from './join-group/join-group.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AddGroupComponent } from './add-group/add-group.component';
     FormComponent,
     AdminComponent,
     AddGroupComponent,
+    JoinGroupComponent,
   ],
   imports: [
     BrowserModule,
