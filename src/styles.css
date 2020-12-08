@@ -7,3 +7,9 @@
     -o-background-size: cover;
     background-size: cover;
   }
+
+  #footer {
+    position: absolute;
+    bottom: 0;
+    height: 5rem;            /* Footer height */
+  }
