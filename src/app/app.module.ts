@@ -8,6 +8,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupsCreateComponent } from './groups/groups-create/groups-create.component';
+import { GroupCardComponent } from './groups/group-card/group-card/group-card.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { GroupsCreateComponent } from './groups/groups-create/groups-create.comp
     HomeComponent,
     NavbarComponent,
     GroupsComponent,
-    GroupsCreateComponent
+    GroupsCreateComponent,
+    GroupCardComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,13 @@
 
 <div class="m20">
     <h3>Your Groups</h3>
-    <p>These are your Secret Santa groups that you control and maintain.</p>
+    <!-- <p>These are your Secret Santa groups that you control and maintain.</p> -->
+    <a href="groups/create"><button type="button" class="btn btn-primary btn-primary">Create New Group</button></a>
     <br>
-    <a href="groups/create"><button type="button" class="btn btn-primary btn-lg">Create</button></a>
+    <br>
+    <div class = "card-deck" style="justify-content: left;">
+        <div *ngFor="let g of groups">
+            <app-group-card [group]="g"></app-group-card>
+        </div>
+    </div>
 </div>
