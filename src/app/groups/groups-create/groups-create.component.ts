@@ -7,7 +7,7 @@ import { IGroup } from 'src/app/models/group.model';
   styleUrls: ['./groups-create.component.css']
 })
 export class GroupsCreateComponent implements OnInit {
-  group: IGroup;
+  group: IGroup = <IGroup> {};
 
 
   constructor() { }
