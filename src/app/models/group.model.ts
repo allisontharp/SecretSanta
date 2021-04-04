@@ -4,4 +4,5 @@ export interface IGroup{
     dollarMaximum: number,
     groupDescription: string, // can include additional rules
     groupDeadline: Date,
+    isAdmin?: Boolean
 }
