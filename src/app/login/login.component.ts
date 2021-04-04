@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +10,13 @@ export class LoginComponent implements OnInit {
   incorrectGuid: boolean;
   accountGuid: string;
 
-  constructor() { }
+  constructor(private _route: ActivatedRoute,
+    private _router: Router) { }
 
   ngOnInit(): void {
   }
 
   login(): void{
-    console.log(this.accountGuid)
     if(this.accountGuid == "914ca442-ce7d-4a96-ad8c-1a99c4989cdc"){
       this.incorrectGuid = false;
       window.location.href = '/groups';

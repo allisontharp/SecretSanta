@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IGroup } from '../models/group.model';
 
 @Component({
@@ -8,8 +9,9 @@ import { IGroup } from '../models/group.model';
 })
 export class GroupsComponent implements OnInit {
   groups: IGroup[] = [];
+  accountGuid: string;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.groups = this.getGroups();
