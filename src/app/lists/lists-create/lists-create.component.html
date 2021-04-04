@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+<br>
+<div class="m20">
+
+    <h3>Create List</h3>
+    <form>
+        <fieldset>
+
+            <div class="form-group">
+                <label class="col-form-label">Name</label>
+                <input type="text" class="form-control" placeholder="ex: Family Secret Santa" [(ngModel)]="listName"
+                    name="listName">
+                <small class="form-text text-muted">This is the name of the Secret Santa List that will be shared with
+                    the
+                    participants</small>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Description</label>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="listDescription"
+                    name="listDescription">
+                <small class="form-text text-muted">Mention any additional rules here.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Exchange Date</label>
+                <input type="date" class="form-control" placeholder="MM/DD/YYYY" [(ngModel)]="listDeadline"
+                    name="listDeadline">
+                <small class="form-text text-muted">The date the group will exchange dates.</small>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" (click)="createList()">Create List</button>
+        </fieldset>
+    </form>
+</div>

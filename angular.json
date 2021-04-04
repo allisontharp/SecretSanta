@@ -1,15 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
+  "version": 1, 
   "newProjectRoot": "projects",
   "projects": {
-    "SecretSanta": {
+    "secretsanta": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/SecretSanta",
+            "outputPath": "dist/secretsanta",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -43,6 +39,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
+              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -50,13 +47,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -65,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "SecretSanta:build"
+            "browserTarget": "secretsanta:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "SecretSanta:build:production"
+              "browserTarget": "secretsanta:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "SecretSanta:build"
+            "browserTarget": "secretsanta:build"
           }
         },
         "test": {
@@ -113,16 +110,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "SecretSanta:serve"
+            "devServerTarget": "secretsanta:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "SecretSanta:serve:production"
+              "devServerTarget": "secretsanta:serve:production"
             }
           }
         }
       }
-    }
-  },
-  "defaultProject": "SecretSanta"
+    }},
+  "defaultProject": "secretsanta"
 }
