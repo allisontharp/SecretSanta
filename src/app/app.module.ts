@@ -6,16 +6,16 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
-import { ListsComponent } from './lists/lists.component';
-import { ListsCreateComponent } from './lists/lists-create/lists-create.component';
+import { GroupsComponent } from './groups/groups.component';
+import { GroupsCreateComponent } from './groups/groups-create/groups-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    ListsComponent,
-    ListsCreateComponent
+    GroupsComponent,
+    GroupsCreateComponent
   ],
   imports: [
     BrowserModule,
