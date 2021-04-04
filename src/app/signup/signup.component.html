@@ -15,16 +15,6 @@
                     </div>
                 </fieldset>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" (click)="signUp()">Sign Up</button>
-
-            <div *ngIf="accountExists" class="alert alert-dismissible alert-primary" role="alert">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                An account with this email already exists.
-            </div>
-
 
             <div *ngIf="accountCreated" class="alert alert-dismissible alert-success" role="alert">
                 <div>
@@ -43,5 +33,21 @@
                 </form>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+            <div *ngIf="accountCreated; else signup">
+                <button type="button" class="btn btn-outline-primary" disabled aria-disabled="true">Sign Up</button>
+            </div>
+
+            <div *ngIf="accountExists" class="alert alert-dismissible alert-primary" role="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                An account with this email already exists.
+            </div>
+        </div>
     </div>
 </div>
+
+<ng-template #signup>
+    <button type="button" class="btn btn-primary" (click)="signUp()">Sign Up</button>
+</ng-template>
