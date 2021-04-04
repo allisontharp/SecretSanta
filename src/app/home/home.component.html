@@ -1,1 +1,23 @@
 <app-navbar></app-navbar>
+<br>
+
+<div class="m20">
+    <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#loginModal">
+        Login
+    </button>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#signupModal">
+        Sign Up
+    </button>
+</div>
+
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <app-login></app-login>
+</div>
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <app-signup></app-signup>
+</div>
