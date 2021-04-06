@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { GroupsCreateComponent } from './groups/groups-create/groups-create.component';
-import { GroupsComponent } from './groups/groups.component';
+import { GroupsCreateComponent } from './components/groups/groups-create/groups-create.component';
+import { GroupsComponent } from './components/groups/groups.component';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationGuard } from './authentication.guard';
 
