@@ -11,6 +11,7 @@ import { GroupsCreateComponent } from './groups/groups-create/groups-create.comp
 import { GroupCardComponent } from './groups/group-card/group-card.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
+import { AuthguardService } from './_services/authguard.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    AuthguardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
