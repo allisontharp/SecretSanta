@@ -1,0 +1,27 @@
+<app-navbar></app-navbar>
+<div class="m20">
+    <br>
+    <h3>{{group.groupName}}</h3>
+    <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#questionaireModal">
+        Answer Questionaire
+    </button>
+    <!-- TODO: Update to 'Update questionaire' if user has filled it out already -->
+    <b>Exchange Date: </b>{{group.groupDeadline | date}}<br>
+    <b>Spending Limits: </b>${{group.dollarMinimum}} - ${{group.dollarMaximum}}<br>
+    <b>Additional Rules: </b>{{group.groupDescription}}<br>
+    <hr>
+    <h3>Current Participants</h3>
+    <div *ngFor="let p of participants">
+        <ul class="list-group">
+            <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+                {{p.name}}
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<!-- Questioniare Modal -->
+<div class="modal fade" id="questionaireModal" tabindex="-1" aria-labelledby="questionaireModalLabel" aria-hidden="true">
+    <app-questionaire [group]="group"></app-questionaire>
+</div>

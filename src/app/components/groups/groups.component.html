@@ -3,8 +3,9 @@
 
 <div class="m20">
     <h3>Your Groups</h3>
-    <!-- <p>These are your Secret Santa groups that you control and maintain.</p> -->
-    <a href="groups"><button type="button" class="btn btn-primary btn-primary">Join Existing</button></a>&nbsp;
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinExistingModal">
+        Join Existing
+    </button> &nbsp;
     <a href="groups/create"><button type="button" class="btn btn-primary btn-primary">Create New Group</button></a>
     <br>
     <br>
@@ -13,4 +14,9 @@
             <app-group-card [group]="g"></app-group-card>
         </div>
     </div>
+</div>
+
+<!-- Join Existing Modal -->
+<div class="modal fade" id="joinExistingModal" tabindex="-1" aria-labelledby="joinExistingModalLabel" aria-hidden="true">
+    <app-join-existing></app-join-existing>
 </div>
