@@ -31,7 +31,7 @@ export class questionaireComponent implements OnInit {
     
     await this.apiService.insertRow(row)
 
-    // document.getElementById('questionaireModal').click()
+    document.getElementById('questionaireModal').click()
   }
 
 }

@@ -147,7 +147,6 @@ func createItem(tableName string, dynamoRow DynamoRow) {
 		TableName: aws.String(tableName),
 	}
 
-	fmt.Println(input)
 	_, err = svc.PutItem(input)
 	if err != nil {
 		log.Fatalf("Got error calling PutItem: %s", err)
