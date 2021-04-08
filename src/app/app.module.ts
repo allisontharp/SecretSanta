@@ -15,6 +15,7 @@ import { AuthguardService } from './_services/authguard.service';
 import { JoinExistingComponent } from './components/join-existing/join-existing.component';
 import { GroupPageComponent } from './components/group-page/group-page.component';
 import { questionaireComponent } from './components/questionaire/questionaire.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { questionaireComponent } from './components/questionaire/questionaire.co
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     AuthguardService
