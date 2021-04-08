@@ -22,11 +22,13 @@ export class questionaireComponent implements OnInit {
 
   async submit() {
     console.log(this.participant)
-    let row = <IDynamorow>{};
-    row.groupName = this.group.groupName;
-    row.userName = this.participant.name;
-    row.jsonObject = JSON.stringify(this.participant)
-    row.households = JSON.stringify([])
+    let row = <IDynamorow>{
+      groupName : this.group.groupName,
+      userName: this.participant.name,
+      jsonObject: JSON.stringify(this.participant),
+      households: "[]"
+    };
+    
     await this.apiService.insertRow(row)
 
     // document.getElementById('questionaireModal').click()
