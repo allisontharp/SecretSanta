@@ -3,6 +3,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -17,6 +18,8 @@ import (
 	"github.com/gorilla/mux"
 	// "github.com/aws/aws-sdk-go/service/s3"
 )
+
+var tableName = "secretSanta"
 
 type Participant struct {
 	Name   string `json:"name"`
@@ -107,11 +110,9 @@ func listTables() {
 	}
 }
 
-func readItems(tableName string) []DynamoRow {
-	filt := expression.Name("groupName").Equal(expression.Value("AllisonTest1"))
-	// proj := expression.NamesList(expression.Name("groupName"), expression.Name("userName"))
+func readItems(filt expression.ConditionBuilder, proj expression.ProjectionBuilder) []DynamoRow {
 
-	expr, err := expression.NewBuilder().WithFilter(filt).Build()
+	expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
 	// expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
 	if err != nil {
 		log.Fatalf("Got error building expression: %s", err)
@@ -136,7 +137,7 @@ func readItems(tableName string) []DynamoRow {
 	return items
 }
 
-func createItem(tableName string, dynamoRow DynamoRow) {
+func createItem(dynamoRow DynamoRow) {
 	av, err := dynamodbattribute.MarshalMap(dynamoRow)
 	if err != nil {
 		log.Fatalf("Got error marshalling new item: %s", err)
@@ -156,11 +157,12 @@ func createItem(tableName string, dynamoRow DynamoRow) {
 ///////////////
 // Handlers //
 //////////////
-func getPostBody(w http.ResponseWriter, r *http.Request) []byte {
+func getPostBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
 	if r.Method != "POST" {
+		fmt.Println(r.Method)
 		w.WriteHeader(400)
 		fmt.Printf("Not POST method!\n")
-		return nil
+		return nil, errors.New("Not post method!")
 	}
 
 	// get the body of the POST request
@@ -168,14 +170,19 @@ func getPostBody(w http.ResponseWriter, r *http.Request) []byte {
 	if err != nil {
 		log.Printf("Error reading post body: %v", err)
 		w.WriteHeader(500)
-		return nil
+		return nil, err
 	}
 
-	return reqBody
+	return reqBody, nil
 }
 
 func insertRowHandler(w http.ResponseWriter, r *http.Request) {
-	reqBody := getPostBody(w, r)
+	log.Printf("insertRow called\n")
+	reqBody, err := getPostBody(w, r)
+	if err != nil {
+		fmt.Printf("Error getting post body")
+		return
+	}
 	// Try to parse body
 	var row DynamoRow
 	if err := json.Unmarshal(reqBody, &row); err != nil {
@@ -183,16 +190,47 @@ func insertRowHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-
 	// Write to db
-	createItem("secretSanta", row)
+	createItem(row)
+}
+
+func getParticipantsHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("getParticipants called\n")
+	reqBody, err := getPostBody(w, r)
+	if err != nil {
+		fmt.Printf("Error getting post body")
+		return
+	}
+	// Try to parse body
+	var row DynamoRow
+	if err := json.Unmarshal(reqBody, &row); err != nil {
+		log.Printf("Error parsing body: %v", err)
+		w.WriteHeader(400)
+		return
+	}
+	filt := expression.Name("groupName").Equal(expression.Value(row.GroupName)).And(expression.Name("userName").NotEqual(expression.Value("General")))
+	proj := expression.NamesList(expression.Name("userName"))
+	// Read
+	items := readItems(filt, proj)
+	var list []string
+	for _, user := range items {
+		list = append(list, user.UserName)
+	}
+	fmt.Println(list)
+	jData, err := json.Marshal(list)
+	if err != nil {
+		// handle error
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jData)
 }
 
 func main() {
 	r := mux.NewRouter()
 	r.Use(CORS) // handles OPTIONS
 	r.HandleFunc("/insertRow", insertRowHandler)
-	// http.HandleFunc("/insertRow", insertRowHandler)
+	r.HandleFunc("/getParticipants", getParticipantsHandler)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 

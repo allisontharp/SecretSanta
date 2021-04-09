@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { IGroup } from 'src/app/models/group.model';
 import { IParticipant } from 'src/app/models/participant.model';
+import { ApiService } from 'src/app/_services/api.service';
 
 @Component({
   selector: 'app-group-page',
@@ -12,18 +14,19 @@ export class GroupPageComponent implements OnInit {
   private sub: any;
   groupGuid: string;
   group: IGroup;
-  participants: IParticipant[];
+  participants: string[];
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _apiService: ApiService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const _ = this.route.params.subscribe(async params => {
       this.groupGuid = decodeURIComponent(params['id']);
     })
     this.getGroup();
-    this.participants = this.getParticipants();
+    this.participants =  await this.getParticipants();
   }
 
   getGroup(): void{
@@ -31,13 +34,13 @@ export class GroupPageComponent implements OnInit {
     this.group =  { groupName: "Lemons Deal Double", groupDeadline: new Date("2021-04-04"), groupDescription: "Have Fun!", dollarMinimum: 0, dollarMaximum: 50 }
   }
 
-  getParticipants(): IParticipant[]{
-    let p: IParticipant[];
-
-    p = [{name: "Allison Tharp", email: "allison@herdomain.com", color: "gray", food: "mexican", team: "bolts", scent: "vanilla", store: "lego", gadget: "home automation", enough: "board games", enjoy: "hockey games", misc: "no hats"}
-  ,{name: "Troy Brewer", email: "troy@hisdomain.com", color: "blue", food: "anything new", team: "none", scent: "earthy", store: "duluth", gadget: "home automation", enough: "board games", enjoy: "hockey games", misc: "no hats"}];
-
-    return p
+  async getParticipants(): Promise<string[]>{
+    let row = <IDynamorow>{
+          groupName: this.group.groupName
+    }
+    
+    let partipantNames = await this._apiService.getParticipants(row)
+    return partipantNames
 
   }
 
