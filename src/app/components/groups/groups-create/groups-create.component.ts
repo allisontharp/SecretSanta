@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { IGroup } from 'src/app/models/group.model';
+import { ApiService } from 'src/app/_services/api.service';
 
 @Component({
   selector: 'app-groups-create',
@@ -10,13 +12,22 @@ export class GroupsCreateComponent implements OnInit {
   group: IGroup = <IGroup> {};
 
 
-  constructor() { }
+  constructor(
+    private _apiService: ApiService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  createGroup() {
+  async createGroup() {
     console.log(this.group)
+    let row = <IDynamorow>{
+      groupName: this.group.groupName,
+      userName: "General",
+      households: "[]",
+      jsonObject: JSON.stringify(this.group)
+    }
+    await this._apiService.insertRow(row)
   }
 
 
