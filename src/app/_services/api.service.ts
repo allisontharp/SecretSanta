@@ -28,4 +28,5 @@ export class ApiService {
     const url = this.apiUrl + '/getGroups';
     return this.http.post(url, dynamoDbRow, {responseType: 'json'}).toPromise();
   }
+  
 }

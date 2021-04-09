@@ -25,13 +25,24 @@ export class GroupPageComponent implements OnInit {
     const _ = this.route.params.subscribe(async params => {
       this.groupGuid = decodeURIComponent(params['id']);
     })
-    this.getGroup();
+    await this.getGroup();
     this.participants =  await this.getParticipants();
   }
 
-  getGroup(): void{
+  async getGroup(): Promise<void>{
+    console.log(this.groupGuid)
     // TODO: API call to return group
-    this.group =  { groupName: "Lemons Deal Double", groupDeadline: new Date("2021-04-04"), groupDescription: "Have Fun!", dollarMinimum: 0, dollarMaximum: 50 }
+    // this.group =  { groupName: "Lemons Deal Double", groupDeadline: new Date("2021-04-04"), groupDescription: "Have Fun!", dollarMinimum: 0, dollarMaximum: 50 }
+    let row = <IDynamorow>{}
+    let res = await this._apiService.getGroups(row)
+
+    res.forEach(element => {
+      console.log(element)
+      let g = JSON.parse(element)
+      if (g.groupName == this.groupGuid){
+        this.group = g
+      }
+    });
   }
 
   async getParticipants(): Promise<string[]>{
@@ -41,7 +52,6 @@ export class GroupPageComponent implements OnInit {
     
     let partipantNames = await this._apiService.getParticipants(row)
     return partipantNames
-
   }
 
 }
