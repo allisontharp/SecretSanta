@@ -226,11 +226,45 @@ func getParticipantsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jData)
 }
 
+func getGroupsHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("getGroups called\n")
+	reqBody, err := getPostBody(w, r)
+	if err != nil {
+		fmt.Printf("Error getting post body")
+		return
+	}
+	// Try to parse body
+	var row DynamoRow
+	if err := json.Unmarshal(reqBody, &row); err != nil {
+		log.Printf("Error parsing body: %v", err)
+		w.WriteHeader(400)
+		return
+	}
+	filt := expression.Name("userName").Equal(expression.Value("General"))
+	proj := expression.NamesList(expression.Name("jsonObject"))
+	// Read
+	items := readItems(filt, proj)
+	fmt.Println(items)
+	var list []string
+	for _, user := range items {
+		list = append(list, user.JsonObject)
+	}
+	fmt.Println(list)
+	jData, err := json.Marshal(list)
+	if err != nil {
+		// handle error
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jData)
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.Use(CORS) // handles OPTIONS
 	r.HandleFunc("/insertRow", insertRowHandler)
 	r.HandleFunc("/getParticipants", getParticipantsHandler)
+	r.HandleFunc("/getGroups", getGroupsHandler)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 
