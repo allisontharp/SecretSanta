@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/_services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,9 @@ export class SignupComponent implements OnInit {
   accountCreated: boolean;
   accountGuid: string;
 
-  constructor() { }
+  constructor(
+    private _apiService: ApiService
+  ) { }
 
   ngOnInit(): void {
     
@@ -22,6 +25,13 @@ export class SignupComponent implements OnInit {
       - Check for account under that email address
       - If none exist, create an account and email them their GUID (as well as display)
     */
+    let row =  {
+      tableName: 'secretSanta',
+      filters: [{field: 'userName', operation: 'equals', value: 'General'}],
+      projection: ['userName']
+    }
+    this._apiService.getRows(row);
+    
     this.accountExists = false;
     this.accountCreated = false;
     if (this.email == "allison.tharp@gmail.com"){

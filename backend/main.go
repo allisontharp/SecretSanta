@@ -244,13 +244,88 @@ func getGroupsHandler(w http.ResponseWriter, r *http.Request) {
 	proj := expression.NamesList(expression.Name("jsonObject"))
 	// Read
 	items := readItems(filt, proj)
-	fmt.Println(items)
 	var list []string
 	for _, user := range items {
 		list = append(list, user.JsonObject)
 	}
-	fmt.Println(list)
 	jData, err := json.Marshal(list)
+	if err != nil {
+		// handle error
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jData)
+}
+
+func getRowsHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("getRows called\n")
+	/*
+		payload:
+		{
+			"tableName": "<tablename",
+			"filters": [
+				{"field": "<fieldname">,
+				"operation": "<equals/not equals>",
+				"value": "<value>"}
+			],
+			"projection": [
+				"<field one>, <field two>"
+			]
+		}
+	*/
+	reqBody, err := getPostBody(w, r)
+	if err != nil {
+		fmt.Printf("Error getting post body")
+		return
+	}
+	// Try to parse body
+	type Filters struct {
+		Field     string `json:"field"`
+		Operation string `json:"operation"`
+		Value     string `json:"value"`
+	}
+	type Row struct {
+		TableName  string     `json:"tableName,omitempty"`
+		Filters    *[]Filters `json:"filters"`
+		Projection []string   `json:"Projection,omitempty"`
+	}
+	row := &Row{
+		Filters: &[]Filters{},
+	}
+	if err := json.Unmarshal(reqBody, &row); err != nil {
+		log.Printf("Error parsing body: %v", err)
+		w.WriteHeader(400)
+		return
+	}
+
+	fmt.Printf("Row: %v\n", row)
+
+	var filt expression.ConditionBuilder
+	var proj expression.ProjectionBuilder
+
+	for i, filter := range *row.Filters {
+		if i == 0 {
+			filt = expression.Name(filter.Field).Equal(expression.Value(filter.Value))
+		} else {
+			filt = filt.And(expression.Name(filter.Field).Equal(expression.Value(filter.Value)))
+		}
+	}
+
+	for i, p := range *&row.Projection {
+		if i == 0 {
+			proj = expression.NamesList(expression.Name(p))
+		} else {
+			proj = proj.AddNames(expression.Name(p))
+		}
+	}
+
+	fmt.Println(filt)
+
+	// Read
+	items := readItems(filt, proj)
+	fmt.Println(items)
+
+	jData, err := json.Marshal(items)
 	if err != nil {
 		// handle error
 	}
@@ -265,6 +340,7 @@ func main() {
 	r.HandleFunc("/insertRow", insertRowHandler)
 	r.HandleFunc("/getParticipants", getParticipantsHandler)
 	r.HandleFunc("/getGroups", getGroupsHandler)
+	r.HandleFunc("/getRows", getRowsHandler)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":10000", nil))
 
