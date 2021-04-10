@@ -21,12 +21,18 @@ export class GroupsComponent implements OnInit {
   }
 
   async getGroups() {
-    let row = <IDynamorow>{}
-    let res = await this._apiService.getGroups(row)
-
+    let row =  {
+      tableName: 'secretSanta',
+      filters: [{field: 'userName', operation: 'equals', value: 'General'}],
+      projection: ['jsonObject']
+    }
+    let res = await this._apiService.getRows(row);
+    console.log(res)
     res.forEach(element => {
-      this.groups.push(JSON.parse(element))
+      this.groups.push(JSON.parse(element.jsonObject))
     });
+
+    console.log(this.groups)
   }
 
 }

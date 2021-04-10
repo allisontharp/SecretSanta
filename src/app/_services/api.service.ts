@@ -23,11 +23,6 @@ export class ApiService {
     return this.http.post(url, dynamoDbRow, {responseType: 'json'}).toPromise();
   }
 
-  getGroups(dynamoDbRow: IDynamorow): any{
-    const url = this.apiUrl + '/getGroups';
-    return this.http.post(url, dynamoDbRow, {responseType: 'json'}).toPromise();
-  }
-
   getRows(row: any): any{
     const url = this.apiUrl + '/getRows';
     return this.http.post(url, row, {responseType: 'json'}).toPromise();

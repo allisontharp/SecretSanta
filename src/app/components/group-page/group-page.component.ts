@@ -30,11 +30,15 @@ export class GroupPageComponent implements OnInit {
   }
 
   async getGroup(): Promise<void>{
-    let row = <IDynamorow>{}
-    let res = await this._apiService.getGroups(row)
-
+    let row =  {
+      tableName: 'secretSanta',
+      filters: [{field: 'userName', operation: 'equals', value: 'General'}],
+      projection: ['jsonObject']
+    }
+    let res = await this._apiService.getRows(row);
+    console.log(res)
     res.forEach(element => {
-      let g = JSON.parse(element)
+      let g = JSON.parse(element.jsonObject)
       if (g.groupName == this.groupGuid){
         this.group = g
       }
