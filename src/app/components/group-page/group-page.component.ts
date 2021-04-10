@@ -14,7 +14,7 @@ export class GroupPageComponent implements OnInit {
   private sub: any;
   groupGuid: string;
   group: IGroup;
-  participants: string[];
+  participants: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -46,11 +46,15 @@ export class GroupPageComponent implements OnInit {
   }
 
   async getParticipants(): Promise<void>{
-    let row = <IDynamorow>{
-          groupName: this.group.groupName
+    let row =  {
+      tableName: 'secretSanta',
+      filters: [{field: 'userName', operation: 'notequals', value: 'General'}],
+      projection: ['userName']
     }
-    
-    this.participants = await this._apiService.getParticipants(row)
+    let res = await this._apiService.getRows(row);
+    res.forEach(element => {
+      this.participants.push(element.userName)
+    });
   }
 
 }

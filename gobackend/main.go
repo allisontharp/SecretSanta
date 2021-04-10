@@ -21,23 +21,6 @@ import (
 
 var tableName = "secretSanta"
 
-type Participant struct {
-	Name   string `json:"name"`
-	Email  string `json:"email"`
-	Color  string `json:"color"`
-	Food   string `json:"food"`
-	Team   string `json:"team"`
-	Scent  string `json:"scent"`
-	Store  string `json:"store"`
-	Enough string `json:"enough"`
-	Enjoy  string `json:"enjoy"`
-	Misc   string `json:"misc"`
-}
-
-type HouseHold struct {
-	name         string
-	participants []string
-}
 type DynamoRow struct {
 	GroupName  string `json:"groupName"`
 	UserName   string `json:"userName"`
@@ -193,38 +176,6 @@ func insertRowHandler(w http.ResponseWriter, r *http.Request) {
 	createItem(row)
 }
 
-func getParticipantsHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("getParticipants called\n")
-	reqBody, err := getPostBody(w, r)
-	if err != nil {
-		fmt.Printf("Error getting post body")
-		return
-	}
-	// Try to parse body
-	var row DynamoRow
-	if err := json.Unmarshal(reqBody, &row); err != nil {
-		log.Printf("Error parsing body: %v", err)
-		w.WriteHeader(400)
-		return
-	}
-	filt := expression.Name("groupName").Equal(expression.Value(row.GroupName)).And(expression.Name("userName").NotEqual(expression.Value("General")))
-	proj := expression.NamesList(expression.Name("userName"))
-	// Read
-	items := readItems(filt, proj)
-	var list []string
-	for _, user := range items {
-		list = append(list, user.UserName)
-	}
-	fmt.Println(list)
-	jData, err := json.Marshal(list)
-	if err != nil {
-		// handle error
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jData)
-}
-
 func getRowsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("getRows called\n")
 	/*
@@ -271,9 +222,17 @@ func getRowsHandler(w http.ResponseWriter, r *http.Request) {
 
 	for i, filter := range *row.Filters {
 		if i == 0 {
-			filt = expression.Name(filter.Field).Equal(expression.Value(filter.Value))
+			if filter.Operation == "equals" {
+				filt = expression.Name(filter.Field).Equal(expression.Value(filter.Value))
+			} else if filter.Operation == "notequals" {
+				filt = expression.Name(filter.Field).NotEqual(expression.Value(filter.Value))
+			}
 		} else {
-			filt = filt.And(expression.Name(filter.Field).Equal(expression.Value(filter.Value)))
+			if filter.Operation == "equals" {
+				filt = filt.And(expression.Name(filter.Field).Equal(expression.Value(filter.Value)))
+			} else if filter.Operation == "notequals" {
+				filt = filt.And(expression.Name(filter.Field).NotEqual(expression.Value(filter.Value)))
+			}
 		}
 	}
 
@@ -301,7 +260,6 @@ func main() {
 	r := mux.NewRouter()
 	r.Use(CORS) // handles OPTIONS
 	r.HandleFunc("/insertRow", insertRowHandler)
-	r.HandleFunc("/getParticipants", getParticipantsHandler)
 	r.HandleFunc("/getRows", getRowsHandler)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":10000", nil))
