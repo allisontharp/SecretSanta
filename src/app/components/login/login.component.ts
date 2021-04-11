@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from 'src/app/_services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -11,18 +13,30 @@ export class LoginComponent implements OnInit {
   accountGuid: string;
 
   constructor(private _route: ActivatedRoute,
-    private _router: Router) { }
+    private _router: Router,
+    private _apiService: ApiService) { }
 
   ngOnInit(): void {
   }
 
-  login(): void{
-    if(this.accountGuid == "914ca442-ce7d-4a96-ad8c-1a99c4989cdc" || this.accountGuid == "a"){
+  async login(): Promise<void>{
+    let row =  {
+      tableName: environment.dynamoDbTableName,
+      filters: [{field: 'guid', operation: 'equals', value: this.accountGuid}],
+      projection: ['jsonObject']
+    }
+    let res = await this._apiService.getRows(row);
+    console.log('response:')
+    console.log(res)
+    if (res.length == 1) {
       this.incorrectGuid = false;
-      localStorage.setItem('SessionUser', this.accountGuid)
-
+      let localRow = {
+        guid: this.accountGuid,
+        groups: row.projection
+      }
+      localStorage.setItem('SessionUser', JSON.stringify(localRow))
       window.location.href = '/groups';
-    } else {
+    }else {
       this.incorrectGuid = true;
     }
   }

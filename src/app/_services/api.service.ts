@@ -13,14 +13,9 @@ export class ApiService {
     this.apiUrl = environment.dynamoDbApiUrl;
   }
 
-  insertRow(dynamoDbRow: IDynamorow): any {
+  insertRow(dynamoDbRow: any): any {
     const url = this.apiUrl + '/insertRow';
     return this.http.post(url, dynamoDbRow, { responseType: 'json' }).toPromise();
-  }
-
-  getParticipants(dynamoDbRow: IDynamorow) : any {
-    const url = this.apiUrl + '/getParticipants';
-    return this.http.post(url, dynamoDbRow, {responseType: 'json'}).toPromise();
   }
 
   getRows(row: any): any{

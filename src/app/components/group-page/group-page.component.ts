@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { IGroup } from 'src/app/models/group.model';
-import { IParticipant } from 'src/app/models/participant.model';
 import { ApiService } from 'src/app/_services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-group-page',
@@ -18,7 +18,7 @@ export class GroupPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _apiService: ApiService
+    private _apiService: ApiService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -31,12 +31,11 @@ export class GroupPageComponent implements OnInit {
 
   async getGroup(): Promise<void>{
     let row =  {
-      tableName: 'secretSanta',
+      tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'equals', value: 'General'}],
       projection: ['jsonObject']
     }
     let res = await this._apiService.getRows(row);
-    console.log(res)
     res.forEach(element => {
       let g = JSON.parse(element.jsonObject)
       if (g.groupName == this.groupGuid){
@@ -47,7 +46,7 @@ export class GroupPageComponent implements OnInit {
 
   async getParticipants(): Promise<void>{
     let row =  {
-      tableName: 'secretSanta',
+      tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'notequals', value: 'General'}],
       projection: ['userName']
     }

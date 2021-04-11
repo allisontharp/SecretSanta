@@ -26,6 +26,7 @@ type DynamoRow struct {
 	UserName   string `json:"userName"`
 	JsonObject string `json:"jsonObject"`
 	HouseHolds string `json:"houseHolds"`
+	Guid       string `json:"guid"`
 }
 
 // Initialize a session that the SDK will use to load

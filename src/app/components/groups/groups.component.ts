@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { ApiService } from 'src/app/_services/api.service';
+import { environment } from 'src/environments/environment';
 import { IGroup } from '../../models/group.model';
 
 @Component({
@@ -22,17 +22,14 @@ export class GroupsComponent implements OnInit {
 
   async getGroups() {
     let row =  {
-      tableName: 'secretSanta',
+      tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'equals', value: 'General'}],
       projection: ['jsonObject']
     }
     let res = await this._apiService.getRows(row);
-    console.log(res)
     res.forEach(element => {
       this.groups.push(JSON.parse(element.jsonObject))
     });
-
-    console.log(this.groups)
   }
 
 }
