@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       this.incorrectGuid = false;
       let localRow = {
         guid: this.accountGuid,
-        groups: row.projection
+        groups: res[0].jsonObject
       }
       localStorage.setItem('SessionUser', JSON.stringify(localRow))
       window.location.href = '/groups';

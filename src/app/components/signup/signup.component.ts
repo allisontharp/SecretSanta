@@ -40,7 +40,8 @@ export class SignupComponent implements OnInit {
       let insertRow = {
         groupName: 'login',
         userName: this.email,
-        guid: this.accountGuid 
+        guid: this.accountGuid,
+        tableName: environment.dynamoDbTableName
       }
       await this._apiService.insertRow(insertRow);
       this.accountCreated = true;

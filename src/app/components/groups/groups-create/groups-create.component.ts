@@ -40,18 +40,19 @@ export class GroupsCreateComponent implements OnInit {
     /* Add this group to the user's groups */
     /* Get current user's groups */
     let session = JSON.parse(localStorage.getItem("SessionUser"));
-    let currentGroups:any[] = session.groups;
+    let currentGroups:any[] = []
+    if (session.groups){
+      currentGroups.push(JSON.parse(session.groups))
+    }
     /* Add this group to local settings */
     let currentGroup = {
       guid: groupGuid,
       isAdmin: true
     }
     currentGroups.push(currentGroup)
-    session.groups = currentGroups;
+    session.groups = JSON.stringify(currentGroups);
 
     localStorage.setItem('SessionUser', JSON.stringify(session))
-    console.log('session:')
-    console.log(session)
     return [session.groups, session.guid]
   }
 
@@ -67,7 +68,7 @@ export class GroupsCreateComponent implements OnInit {
     }
     let res = await this._apiService.getRows(row);
     
-    res[0].jsonObject = JSON.stringify(currentGroups)
+    res[0].jsonObject = currentGroups; //JSON.stringify(currentGroups)
 
     await this._apiService.insertRow(res[0]);
 

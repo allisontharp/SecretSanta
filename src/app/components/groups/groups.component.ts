@@ -1,3 +1,4 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/_services/api.service';
@@ -21,11 +22,20 @@ export class GroupsComponent implements OnInit {
   }
 
   async getGroups() {
+    let session = JSON.parse(localStorage.getItem("SessionUser"));
+    let userGroups = JSON.parse(session.groups);
+    // let userGroups = session.groups;
+    let groupGuids: string[] = []
+    userGroups.forEach(element => {
+      groupGuids.push(element.guid)
+    });
     let row =  {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'userName', operation: 'equals', value: 'General'}],
+      filters: [{field: 'userName', operation: 'equals', value: 'General'}
+    ,{field: 'guid', operation: 'in', value: groupGuids.join(',')}],
       projection: ['jsonObject']
     }
+
     let res = await this._apiService.getRows(row);
     res.forEach(element => {
       this.groups.push(JSON.parse(element.jsonObject))

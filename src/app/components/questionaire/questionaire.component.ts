@@ -22,7 +22,7 @@ export class questionaireComponent implements OnInit {
 
   async submit() {
     /* TODO: Refresh group page after this */
-    console.log(this.participant)
+    (this.participant)
     let row = <IDynamorow>{
       groupName : this.group.groupName,
       userName: this.participant.name,

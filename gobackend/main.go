@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -140,7 +141,6 @@ func insertRowHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	fmt.Println(row)
 	// Write to db
 	createItem(row.TableName, row)
 }
@@ -148,12 +148,13 @@ func insertRowHandler(w http.ResponseWriter, r *http.Request) {
 func getRowsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("getRows called\n")
 	/*
+		available expressions: https://docs.aws.amazon.com/sdk-for-go/api/service/dynamodb/expression/
 		payload:
 		{
 			"tableName": "<tablename",
 			"filters": [
 				{"field": "<fieldname">,
-				"operation": "<equals/not equals>",
+				"operation": "<equals/not equals/in>",
 				"value": "<value>"}
 			],
 			"projection": [
@@ -190,18 +191,28 @@ func getRowsHandler(w http.ResponseWriter, r *http.Request) {
 	var proj expression.ProjectionBuilder
 
 	for i, filter := range *row.Filters {
+		var ifilt expression.ConditionBuilder
+		if filter.Operation == "equals" {
+			ifilt = expression.Name(filter.Field).Equal(expression.Value(filter.Value))
+		} else if filter.Operation == "notequals" {
+			ifilt = expression.Name(filter.Field).NotEqual(expression.Value(filter.Value))
+		} else if filter.Operation == "in" {
+			// couldnt get IN to work dynamically, so now it will be an OR
+			for i, val := range strings.Split(filter.Value, ",") {
+				var iInFilt expression.ConditionBuilder
+				iInFilt = expression.Name(filter.Field).Equal(expression.Value(val))
+				if i == 0 {
+					ifilt = iInFilt
+				} else {
+					ifilt = ifilt.Or(iInFilt)
+				}
+			}
+		}
+
 		if i == 0 {
-			if filter.Operation == "equals" {
-				filt = expression.Name(filter.Field).Equal(expression.Value(filter.Value))
-			} else if filter.Operation == "notequals" {
-				filt = expression.Name(filter.Field).NotEqual(expression.Value(filter.Value))
-			}
+			filt = ifilt
 		} else {
-			if filter.Operation == "equals" {
-				filt = filt.And(expression.Name(filter.Field).Equal(expression.Value(filter.Value)))
-			} else if filter.Operation == "notequals" {
-				filt = filt.And(expression.Name(filter.Field).NotEqual(expression.Value(filter.Value)))
-			}
+			filt = filt.And(ifilt)
 		}
 	}
 
