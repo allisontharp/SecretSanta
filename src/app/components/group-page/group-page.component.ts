@@ -47,7 +47,8 @@ export class GroupPageComponent implements OnInit {
   async getParticipants(): Promise<void>{
     let row =  {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'userName', operation: 'notequals', value: 'General'}],
+      filters: [{field: 'userName', operation: 'notequals', value: 'General'}
+    ,{field: 'groupName', operation: 'equals', value: this.group.groupName}],
       projection: ['userName']
     }
     let res = await this._apiService.getRows(row);

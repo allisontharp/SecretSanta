@@ -3,5 +3,6 @@ export interface IDynamorow{
     userName: string,
     jsonObject: string,
     households: any,
-    guid: string
+    guid: string,
+    tableName?: string
 }

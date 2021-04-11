@@ -3,6 +3,7 @@ import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { IGroup } from 'src/app/models/group.model';
 import { IParticipant } from 'src/app/models/participant.model';
 import { ApiService } from 'src/app/_services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-questionaire',
@@ -23,13 +24,15 @@ export class questionaireComponent implements OnInit {
   async submit() {
     /* TODO: Refresh group page after this */
     (this.participant)
+    console.log(this.group)
+
     let row = <IDynamorow>{
       groupName : this.group.groupName,
       userName: this.participant.name,
       jsonObject: JSON.stringify(this.participant),
-      households: "[]"
+      households: "[]",
+      tableName: environment.dynamoDbTableName
     };
-    
     await this.apiService.insertRow(row)
 
     document.getElementById('questionaireModal').click()
