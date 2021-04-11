@@ -10,7 +10,6 @@ import (
 	"net/http"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
@@ -19,7 +18,7 @@ import (
 	// "github.com/aws/aws-sdk-go/service/s3"
 )
 
-var tableName = "secretSanta"
+// var tableName = "secretSanta"
 
 type DynamoRow struct {
 	GroupName  string `json:"groupName"`
@@ -27,6 +26,7 @@ type DynamoRow struct {
 	JsonObject string `json:"jsonObject"`
 	HouseHolds string `json:"houseHolds"`
 	Guid       string `json:"guid"`
+	TableName  string `json:"tableName"`
 }
 
 // Initialize a session that the SDK will use to load
@@ -62,40 +62,7 @@ func CORS(next http.Handler) http.Handler {
 /////////////////////
 // CRUD Operations //
 /////////////////////
-
-func listTables() {
-	// Create the input configuration instance
-	input := &dynamodb.ListTablesInput{}
-
-	for {
-		// get the list of tables
-		result, err := svc.ListTables(input)
-		if err != nil {
-			if aerr, ok := err.(awserr.Error); ok {
-				switch aerr.Code() {
-				case dynamodb.ErrCodeInternalServerError:
-					fmt.Println(dynamodb.ErrCodeInternalServerError, aerr.Error())
-				default:
-					fmt.Println(aerr.Error())
-				}
-			} else {
-				fmt.Println(err.Error())
-			}
-			return
-		}
-		for _, n := range result.TableNames {
-			fmt.Println(*n)
-		}
-
-		input.ExclusiveStartTableName = result.LastEvaluatedTableName
-		if result.LastEvaluatedTableName == nil {
-			break
-		}
-	}
-}
-
-func readItems(filt expression.ConditionBuilder, proj expression.ProjectionBuilder) []DynamoRow {
-
+func readItems(tableName string, filt expression.ConditionBuilder, proj expression.ProjectionBuilder) []DynamoRow {
 	expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
 	if err != nil {
 		log.Fatalf("Got error building expression: %s", err)
@@ -120,7 +87,7 @@ func readItems(filt expression.ConditionBuilder, proj expression.ProjectionBuild
 	return items
 }
 
-func createItem(dynamoRow DynamoRow) {
+func createItem(tableName string, dynamoRow DynamoRow) {
 	av, err := dynamodbattribute.MarshalMap(dynamoRow)
 	if err != nil {
 		log.Fatalf("Got error marshalling new item: %s", err)
@@ -173,8 +140,9 @@ func insertRowHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
+	fmt.Println(row)
 	// Write to db
-	createItem(row)
+	createItem(row.TableName, row)
 }
 
 func getRowsHandler(w http.ResponseWriter, r *http.Request) {
@@ -246,7 +214,7 @@ func getRowsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Read
-	items := readItems(filt, proj)
+	items := readItems(row.TableName, filt, proj)
 
 	jData, err := json.Marshal(items)
 	if err != nil {

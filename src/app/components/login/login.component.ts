@@ -26,8 +26,6 @@ export class LoginComponent implements OnInit {
       projection: ['jsonObject']
     }
     let res = await this._apiService.getRows(row);
-    console.log('response:')
-    console.log(res)
     if (res.length == 1) {
       this.incorrectGuid = false;
       let localRow = {

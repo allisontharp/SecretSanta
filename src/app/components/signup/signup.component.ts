@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { ApiService } from 'src/app/_services/api.service';
 import { environment } from 'src/environments/environment';
 import {v4 as uuidv4} from 'uuid';
