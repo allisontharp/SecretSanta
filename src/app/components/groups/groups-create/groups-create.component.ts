@@ -21,57 +21,12 @@ export class GroupsCreateComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async addGroupToDynamo():Promise<string>  {
-    /* Add the group information to db */
-    let groupGuid = uuidv4();
-    let row = <IDynamorow>{
-      tableName: environment.dynamoDbTableName,
-      groupName: this.group.groupName,
-      userName: "General",
-      households: "[]",
-      jsonObject: JSON.stringify(this.group),
-      guid: groupGuid
-    }
-    await this._apiService.insertRow(row)
-    return groupGuid
-  }
-
-  addGroupToLocalStorage(groupGuid:string): [any, string]{
-    /* Add this group to the user's groups */
-    /* Get current user's groups */
-    let session = JSON.parse(localStorage.getItem("SessionUser"));
-    let currentGroups:any[] = []
-    if (session.groups){
-      currentGroups.push(JSON.parse(session.groups))
-    }
-    /* Add this group to local settings */
-    let currentGroup = {
-      guid: groupGuid,
-      isAdmin: true
-    }
-    currentGroups.push(currentGroup)
-    session.groups = JSON.stringify(currentGroups);
-
-    localStorage.setItem('SessionUser', JSON.stringify(session))
-    return [session.groups, session.guid]
-  }
-
   async createGroup() {
-    let groupGuid = await this.addGroupToDynamo();
-    let [currentGroups, accountGuid] = this.addGroupToLocalStorage(groupGuid);
+    // let groupGuid = await this.addGroupToDynamo();
+    let groupGuid = await this._apiService.addGroupToDynamo(this.group)
+    let [currentGroups, accountGuid] = this._apiService.addGroupToLocalStorage(groupGuid);
 
-    let row =  {
-      tableName: environment.dynamoDbTableName,
-      filters: [{field: 'groupName', operation: 'equals', value: 'login'}
-      , {field: 'guid', operation: 'equals', value: accountGuid}],
-      projection: ['groupName', 'userName', 'jsonObject', 'guid', 'tableName']
-    }
-    let res = await this._apiService.getRows(row);
-    
-    res[0].jsonObject = currentGroups; //JSON.stringify(currentGroups)
-
-    await this._apiService.insertRow(res[0]);
-
+    await this._apiService.addGroupToUserDynamo(accountGuid, currentGroups)
   }
 
 
