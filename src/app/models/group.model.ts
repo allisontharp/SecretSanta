@@ -1,4 +1,5 @@
 export interface IGroup{
+    guid: string,
     groupName: string,
     dollarMinimum: number,
     dollarMaximum: number,

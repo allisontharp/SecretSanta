@@ -33,12 +33,14 @@ export class GroupsComponent implements OnInit {
       tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'equals', value: 'General'}
     ,{field: 'guid', operation: 'in', value: groupGuids.join(',')}],
-      projection: ['jsonObject']
+      projection: ['guid', 'jsonObject']
     }
 
     let res = await this._apiService.getRows(row);
     res.forEach(element => {
-      this.groups.push(JSON.parse(element.jsonObject))
+      let group = JSON.parse(element.jsonObject)
+      group["guid"] = element.guid
+      this.groups.push(group)
     });
   }
 

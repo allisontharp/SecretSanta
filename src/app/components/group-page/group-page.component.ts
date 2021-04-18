@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IDynamorow } from 'src/app/models/dynamorow.model';
 import { IGroup } from 'src/app/models/group.model';
 import { ApiService } from 'src/app/_services/api.service';
 import { environment } from 'src/environments/environment';
@@ -38,20 +37,17 @@ export class GroupPageComponent implements OnInit {
     this.isAdmin = group[0]["isAdmin"]
   }
 
-  async getGroup(): Promise<void>{
+  async getGroup(): Promise<void>{  
     let row =  {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'userName', operation: 'equals', value: 'General'}],
+      filters: [{field: 'guid', operation: 'equals', value: this.groupGuid}],
       projection: ['guid', 'jsonObject']
     }
     let res = await this._apiService.getRows(row);
-    res.forEach(element => {
-      let g = JSON.parse(element.jsonObject)
-      if (g.groupName == this.groupGuid){
-        this.group = g
-        this.group.guid = element.guid
-      }
-    });
+    if(res.length == 1){
+      this.group = JSON.parse(res[0].jsonObject)
+      this.group.guid = res[0].guid
+    }
   }
 
   async getParticipants(): Promise<void>{

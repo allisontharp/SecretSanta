@@ -40,7 +40,7 @@ export class ApiService {
     return groupGuid
   }
 
-  addGroupToLocalStorage(groupGuid:string): [any, string]{
+  addGroupToLocalStorage(groupGuid:string, isAdmin: boolean): [any, string]{
     /* Add this group to the user's groups */
     /* Get current user's groups */
     let session = JSON.parse(localStorage.getItem("SessionUser"));
@@ -51,7 +51,7 @@ export class ApiService {
     /* Add this group to local settings */
     let currentGroup = {
       guid: groupGuid,
-      isAdmin: true
+      isAdmin: isAdmin
     }
     currentGroups[0].push(currentGroup)
 

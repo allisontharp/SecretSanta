@@ -24,7 +24,7 @@ export class GroupsCreateComponent implements OnInit {
   async createGroup() {
     // let groupGuid = await this.addGroupToDynamo();
     let groupGuid = await this._apiService.addGroupToDynamo(this.group)
-    let [currentGroups, accountGuid] = this._apiService.addGroupToLocalStorage(groupGuid);
+    let [currentGroups, accountGuid] = this._apiService.addGroupToLocalStorage(groupGuid, true);
 
     await this._apiService.addGroupToUserDynamo(accountGuid, currentGroups)
   }
