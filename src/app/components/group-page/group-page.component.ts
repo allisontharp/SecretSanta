@@ -15,7 +15,7 @@ export class GroupPageComponent implements OnInit {
   groupGuid: string;
   group: IGroup;
   participants: string[] = [];
-  isAdmin: boolean = true;
+  isAdmin: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,19 +28,28 @@ export class GroupPageComponent implements OnInit {
     })
     await this.getGroup();
     await this.getParticipants();
+    this.getLocalStorage();
+  }
+
+  getLocalStorage() {
+    let session = JSON.parse(localStorage.getItem("SessionUser"));
+    let groups = JSON.parse(session.groups)
+    let group = groups.filter(g => g.guid == this.group.guid)
+    this.isAdmin = group[0]["isAdmin"]
   }
 
   async getGroup(): Promise<void>{
     let row =  {
       tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'equals', value: 'General'}],
-      projection: ['jsonObject']
+      projection: ['guid', 'jsonObject']
     }
     let res = await this._apiService.getRows(row);
     res.forEach(element => {
       let g = JSON.parse(element.jsonObject)
       if (g.groupName == this.groupGuid){
         this.group = g
+        this.group.guid = element.guid
       }
     });
   }
