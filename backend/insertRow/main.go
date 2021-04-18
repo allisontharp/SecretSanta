@@ -57,6 +57,7 @@ func CORS(next http.Handler) http.Handler {
 }
 
 func createItem(tableName string, dynamoRow DynamoRow) {
+	log.Printf("createItem called\n")
 	av, err := dynamodbattribute.MarshalMap(dynamoRow)
 	if err != nil {
 		log.Fatalf("Got error marshalling new item: %s", err)
@@ -66,7 +67,7 @@ func createItem(tableName string, dynamoRow DynamoRow) {
 		Item:      av,
 		TableName: aws.String(tableName),
 	}
-
+	log.Println(input)
 	_, err = svc.PutItem(input)
 	if err != nil {
 		log.Fatalf("Got error calling PutItem: %s", err)
@@ -91,7 +92,6 @@ func getPostBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
 		w.WriteHeader(500)
 		return nil, err
 	}
-
 	return reqBody, nil
 }
 
@@ -109,8 +109,12 @@ func insertRowHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
+	fmt.Printf(row.TableName)
 	// Write to db
 	createItem(row.TableName, row)
+	fmt.Printf("createItem ended")
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(nil)
 }
 
 func main() {
@@ -119,5 +123,4 @@ func main() {
 	r.HandleFunc("/insertRow", insertRowHandler)
 	http.Handle("/", r)
 	log.Fatal(gateway.ListenAndServe(":10000", nil))
-
 }

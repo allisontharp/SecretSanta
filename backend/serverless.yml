@@ -27,7 +27,6 @@ provider:
     - Effect: "Allow"
       Action:
       - "dynamodb:*"
-      - "ses:*"
       Resource: "*"
 # you can overwrite defaults here
 #  stage: dev
@@ -60,7 +59,7 @@ package:
     - ./bin/**
 
 functions:
-  insertRows:
+  insertRow:
     handler: bin/insertRow
     events:
       - http:
