@@ -23,7 +23,12 @@ frameworkVersion: '>=1.28.0 <2.0.0'
 provider:
   name: aws
   runtime: go1.x
-
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+      - "dynamodb:*"
+      - "ses:*"
+      Resource: "*"
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
