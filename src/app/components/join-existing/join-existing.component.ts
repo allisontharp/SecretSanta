@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/_services/api.service';
 import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-join-existing',
   templateUrl: './join-existing.component.html',
@@ -17,8 +16,6 @@ export class JoinExistingComponent implements OnInit {
   }
 
   async join(): Promise<void> {
-    
-
     let row =  {
       tableName: environment.dynamoDbTableName,
       filters: [{field: 'guid', operation: 'equals', value: this.groupGuid}],

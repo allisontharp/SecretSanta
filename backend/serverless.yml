@@ -55,18 +55,20 @@ package:
     - ./bin/**
 
 functions:
-  hello:
-    handler: bin/hello
+  insertRows:
+    handler: bin/insertRow
     events:
       - http:
-          path: hello
-          method: get
-  world:
-    handler: bin/world
+          path: insertRow
+          method: post
+          cors: true
+  getRows:
+    handler: bin/getRows
     events:
       - http:
-          path: world
-          method: get
+          path: getRows
+          method: post
+          cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

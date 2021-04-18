@@ -15,6 +15,7 @@ export class GroupPageComponent implements OnInit {
   groupGuid: string;
   group: IGroup;
   participants: string[] = [];
+  isAdmin: boolean = true;
 
   constructor(
     private route: ActivatedRoute,

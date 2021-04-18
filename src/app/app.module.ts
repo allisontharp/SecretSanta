@@ -16,6 +16,7 @@ import { JoinExistingComponent } from './components/join-existing/join-existing.
 import { GroupPageComponent } from './components/group-page/group-page.component';
 import { questionaireComponent } from './components/questionaire/questionaire.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateHouseholdComponent } from './components/create-household/create-household.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     JoinExistingComponent,
     GroupPageComponent,
     questionaireComponent,
+    CreateHouseholdComponent,
   ],
   imports: [
     BrowserModule,

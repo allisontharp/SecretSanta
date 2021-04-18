@@ -1,0 +1,29 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="joinExistingModalLabel">Create Household</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="householdName">Household Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="householdName" name="householdName">
+                </div>
+
+                <div class="form-check" *ngFor="let n of participants">
+                    <input class="form-check-input" type="checkbox" value="{{n}}">
+                    <label class="form-check-label">
+                        {{n}}
+                    </label>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</div>

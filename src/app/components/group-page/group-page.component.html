@@ -16,12 +16,29 @@
             <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
                 {{p}}
             </li>
-            
         </ul>
+    </div>
+    <div *ngIf="isAdmin; then admin" >
     </div>
 </div>
 
 <!-- Questioniare Modal -->
 <div class="modal fade" id="questionaireModal" tabindex="-1" aria-labelledby="questionaireModalLabel" aria-hidden="true">
     <app-questionaire [group]="group"></app-questionaire>
+</div>
+
+<ng-template #admin>
+    <hr>
+    <h3>Admin Portal</h3>
+    
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createHouseholdModal">
+        Create Household
+    </button> &nbsp;
+    <button type="submit" class="btn btn-primary" >Generate Matches</button>
+    
+</ng-template>
+
+<!-- Create Group Modal -->
+<div class="modal fade" id="createHouseholdModal" tabindex="-1" aria-labelledby="createHouseholdModalLabel" aria-hidden="true">
+    <app-create-household [participants]="participants"></app-create-household>
 </div>
