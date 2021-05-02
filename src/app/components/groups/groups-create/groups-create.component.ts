@@ -28,7 +28,6 @@ export class GroupsCreateComponent implements OnInit {
 
     await this._apiService.addGroupToUserDynamo(accountGuid, currentGroups)
     window.location.href = '/group/'+groupGuid;
-
   }
 
 

@@ -27,7 +27,9 @@ export class JoinExistingComponent implements OnInit {
       this.incorrectGuid = false;
       let [currentGroups, accountGuid] = this._apiService.addGroupToLocalStorage(this.groupGuid, false);
       await this._apiService.addGroupToUserDynamo(accountGuid, currentGroups);
-      document.getElementById('joinExistingModal').click();
+      // document.getElementById('joinExistingModal').click();
+      window.location.href = '/group/'+this.groupGuid;
+
     }else {
       this.incorrectGuid = true;
     }
