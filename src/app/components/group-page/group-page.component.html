@@ -14,7 +14,7 @@
     <div *ngFor="let p of participants">
         <ul class="list-group">
             <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                {{p}}
+                {{p.name}}
             </li>
         </ul>
     </div>
@@ -40,5 +40,5 @@
 
 <!-- Create Group Modal -->
 <div class="modal fade" id="createHouseholdModal" tabindex="-1" aria-labelledby="createHouseholdModalLabel" aria-hidden="true">
-    <app-create-household [participants]="participants"></app-create-household>
+    <app-create-household [participants]="participants" [group]="group"></app-create-household>
 </div>

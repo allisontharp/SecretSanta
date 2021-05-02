@@ -4,5 +4,6 @@ export interface IGroup{
     dollarMinimum: number,
     dollarMaximum: number,
     groupDescription: string, // can include additional rules
-    groupDeadline: Date
+    groupDeadline: Date,
+    houseHolds?: string
 }

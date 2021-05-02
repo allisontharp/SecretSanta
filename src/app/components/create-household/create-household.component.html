@@ -7,23 +7,35 @@
             </button>
         </div>
         <div class="modal-body">
+            <small class="form-text text-muted">Members of the same household will not be matched together.</small>
+            <br>
+            <h6>Current Households:</h6>
+            <!-- <ui class="list-group">
+                <li class="list-group-item"><b>{{householdName}}</b></li>
+            </ui> -->
+            <div *ngFor="let h of houseHolds">
+                {{h.name}}
+            </div>
+            <hr>
+            <h6>New Household:</h6>
             <form>
                 <div class="form-group">
-                    <label for="householdName">Household Name</label>
+                    <label for="householdName">Name</label>
                     <input type="text" class="form-control" [(ngModel)]="householdName" name="householdName">
                 </div>
 
-                <div class="form-check" *ngFor="let n of participants">
-                    <input class="form-check-input" type="checkbox" value="{{n}}">
+                <p>Select members of household:</p>
+                <div class="form-check" *ngFor="let p of participants">
+                    <input class="form-check-input" type="checkbox" value="{{p.name}}">
                     <label class="form-check-label">
-                        {{n}}
+                        {{p.name}}
                     </label>
                 </div>
             </form>
 
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success" (click)="getHouseHoldParticipants()">Submit</button>
         </div>
     </div>
 </div>

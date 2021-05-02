@@ -1,4 +1,5 @@
 export interface IParticipant{
+    guid?: string,
     name: string,
     email: string,
     color: string,

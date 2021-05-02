@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IGroup } from 'src/app/models/group.model';
+import { IParticipant } from 'src/app/models/participant.model';
 import { ApiService } from 'src/app/_services/api.service';
 import { environment } from 'src/environments/environment';
 
@@ -13,7 +14,7 @@ export class GroupPageComponent implements OnInit {
   private sub: any;
   groupGuid: string;
   group: IGroup;
-  participants: string[] = [];
+  participants: IParticipant[] = [];
   isAdmin: boolean = false;
 
   constructor(
@@ -41,12 +42,13 @@ export class GroupPageComponent implements OnInit {
     let row =  {
       tableName: environment.dynamoDbTableName,
       filters: [{field: 'guid', operation: 'equals', value: this.groupGuid}],
-      projection: ['guid', 'jsonObject']
+      projection: ['guid', 'jsonObject', 'houseHolds']
     }
     let res = await this._apiService.getRows(row);
     if(res.length == 1){
       this.group = JSON.parse(res[0].jsonObject)
       this.group.guid = res[0].guid
+      this.group.houseHolds = res[0].houseHolds
     }
   }
 
@@ -55,11 +57,26 @@ export class GroupPageComponent implements OnInit {
       tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'notequals', value: 'General'}
     ,{field: 'groupName', operation: 'equals', value: this.group.groupName}],
-      projection: ['userName']
+      projection: ['userName', 'jsonObject',]
     }
     let res = await this._apiService.getRows(row);
     res.forEach(element => {
-      this.participants.push(element.userName)
+      let participant: IParticipant;
+      let j = JSON.parse(element.jsonObject)
+      participant = {
+        name: j.name,
+        color: j.color,
+        email: j.email,
+        food: j.food,
+        scent: j.scent,
+        team: j.team,
+        store: j.store, 
+        gadget: j.gadget,
+        enough: j.enough, 
+        enjoy: j.enjoy,
+        misc: j.misc
+      }
+      this.participants.push(participant)
     });
   }
 

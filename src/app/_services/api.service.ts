@@ -53,7 +53,13 @@ export class ApiService {
       guid: groupGuid,
       isAdmin: isAdmin
     }
-    currentGroups[0].push(currentGroup)
+    console.log(currentGroups)
+    if (currentGroups.length == 0) {
+      currentGroups.push(currentGroup)
+    } else {
+      currentGroups[0].push(currentGroup)
+    }
+    console.log(currentGroups)
 
     session.groups = JSON.stringify(currentGroups[0]);
 

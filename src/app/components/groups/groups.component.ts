@@ -18,7 +18,6 @@ export class GroupsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getGroups();
-    
   }
 
   async getGroups() {
