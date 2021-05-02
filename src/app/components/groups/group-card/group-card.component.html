@@ -7,7 +7,7 @@
         <!-- <h4 class="card-title">Primary card title</h4> -->
         <p class="card-text">Date: {{group.groupDeadline | date}}</p>
         <p class="card-text">{{group.groupDescription}}</p>
-        <p class="card-text">{{group.guid}}</p>
+        <p class="card-text">${{group.dollarMinimum}} - ${{group.dollarMaximum}}</p>
         <a href="/group/{{group.guid}}" class="stretched-link"></a>
     </div>
 </div>

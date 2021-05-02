@@ -26,6 +26,17 @@
                 <small class="form-text text-muted">The date the group will exchange dates.</small>
             </div>
 
+            <div class="form-group">
+                <label class="col-form-label">Dollar Minimum</label>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="group.dollarMinimum"
+                    name="groupDollarMinimum">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Dollar Maximum</label>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="group.dollarMaximum"
+                    name="groupDollarMaximum">
+            </div>
             <button type="submit" class="btn btn-primary" (click)="createGroup()">Create Group</button>
         </fieldset>
     </form>
