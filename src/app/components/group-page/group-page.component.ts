@@ -57,13 +57,15 @@ export class GroupPageComponent implements OnInit {
       tableName: environment.dynamoDbTableName,
       filters: [{field: 'userName', operation: 'notequals', value: 'General'}
     ,{field: 'groupName', operation: 'equals', value: this.group.groupName}],
-      projection: ['userName', 'jsonObject',]
+      projection: ['userName', 'guid', 'jsonObject',]
     }
     let res = await this._apiService.getRows(row);
+    console.log(res)
     res.forEach(element => {
       let participant: IParticipant;
       let j = JSON.parse(element.jsonObject)
       participant = {
+        guid: element.guid,
         name: j.name,
         color: j.color,
         email: j.email,

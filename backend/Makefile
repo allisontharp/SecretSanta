@@ -3,6 +3,7 @@
 build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/getRows getRows/*.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/insertRow insertRow/*.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/generateMatches generateMatches/*.go
 
 clean:
 	rm -rf ./bin

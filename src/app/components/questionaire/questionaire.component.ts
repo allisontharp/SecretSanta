@@ -15,27 +15,41 @@ export class questionaireComponent implements OnInit {
   @Input() group: IGroup;
   
   constructor(
-    private apiService: ApiService
+    private _apiService: ApiService
   ) { }
 
   ngOnInit(): void {
   }
 
   async submit() {
-    /* TODO: Refresh group page after this */
-    (this.participant)
-    console.log(this.group)
-
+    let ls = JSON.parse(localStorage.getItem("SessionUser"))
+    let guid = ls["guid"]
+    let email = await this.getUserEmail(guid)
+    this.participant.email = email
     let row = <IDynamorow>{
       groupName : this.group.groupName,
       userName: this.participant.name,
+      guid: guid,
       jsonObject: JSON.stringify(this.participant),
       households: "[]",
       tableName: environment.dynamoDbTableName
     };
-    await this.apiService.insertRow(row)
+    await this._apiService.insertRow(row)
 
     document.getElementById('questionaireModal').click()
+  }
+
+  async getUserEmail(guid: string){
+    let row =  {
+      tableName: environment.dynamoDbTableName,
+      filters: [{field: 'guid', operation: 'equals', value: guid},
+    {field: 'groupName', operation: 'equals', value: 'login'}],
+      projection: ['userName']
+    }
+    let res = await this._apiService.getRows(row);
+    if(res.length == 1){
+      return res[0].userName
+    }
   }
 
 }
