@@ -81,4 +81,13 @@ export class GroupPageComponent implements OnInit {
     });
   }
 
+  generateMatches(){
+    let body = {
+      group: this.group,
+      participants: this.participants
+    }
+    this._apiService.generateMatches(body)
+  }
+
+
 }

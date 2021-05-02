@@ -91,4 +91,10 @@ export class ApiService {
     await this.insertRow(row)
   }
 
+  generateMatches(body: any): any {
+    const url = this.apiUrl + '/generateMatches';
+    console.log(JSON.stringify(body))
+    return this.http.post(url, body, { responseType: 'json' }).toPromise();
+  }
+
 }

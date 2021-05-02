@@ -1,0 +1,31 @@
+{
+	"group": {
+		"groupName": "test guid",
+		"groupDescription": "asdkfj",
+		"groupDeadline": "",
+		"dollarMinimum": "10",
+		"dollarMaximum": "30",
+		"guid": "e8ed6394-d573-4c7d-b7bb-7467f8c93c09",
+		"houseHolds": "[{\"name\":\"brewer\",\"participantNames\":[\"Allison\",\"Troy\"]},{\"name\":\"brewer2\",\"participantNames\":[\"Allison\",\"Troy\"]},{\"name\":\"brewer2\",\"participantNames\":[\"Allison\",\"Troy\"]},{\"name\":\"brewer3\",\"participantNames\":[\"Allison\"]},{\"name\":\"brewer4\",\"participantNames\":[\"Troy\"]}]"
+	},
+	"participants": [{
+		"name": "Allison",
+		"color": "green",
+		"email": "mad4hatter7@gmail.com",
+		"food": "mexican, indian",
+		"scent": "vanilla",
+		"team": "fuel, bolts",
+		"store": "lego",
+		"gadget": "home automation",
+		"enough": "board games",
+		"isChecked": false
+	}, {
+		"name": "Troy",
+		"email": "a@a.com",
+		"food": "mexican, indian",
+		"scent": "vanilla",
+		"team": "fuel, bolts",
+		"store": "lego",
+		"isChecked": false
+	}]
+}
