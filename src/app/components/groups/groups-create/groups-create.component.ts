@@ -27,6 +27,8 @@ export class GroupsCreateComponent implements OnInit {
     let [currentGroups, accountGuid] = this._apiService.addGroupToLocalStorage(groupGuid, true);
 
     await this._apiService.addGroupToUserDynamo(accountGuid, currentGroups)
+    window.location.href = '/group/'+groupGuid;
+
   }
 
 
