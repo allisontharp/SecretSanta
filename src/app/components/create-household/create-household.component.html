@@ -1,7 +1,7 @@
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="joinExistingModalLabel">Create Household</h5>
+            <h5 class="modal-title" id="createHouseholdModal">Create Household</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -14,7 +14,7 @@
                 <li class="list-group-item"><b>{{householdName}}</b></li>
             </ui> -->
             <div *ngFor="let h of houseHolds">
-                {{h.name}}
+                {{h.name}} - {{h.participantNames}}
             </div>
             <hr>
             <h6>New Household:</h6>
@@ -25,8 +25,8 @@
                 </div>
 
                 <p>Select members of household:</p>
-                <div class="form-check" *ngFor="let p of participants">
-                    <input class="form-check-input" type="checkbox" value="{{p.name}}">
+                <div class="form-check" *ngFor="let p of part">
+                    <input class="form-check-input" type="checkbox" value="{{p.name}}" [(ngModel)]="p.isChecked" name="participant">
                     <label class="form-check-label">
                         {{p.name}}
                     </label>
@@ -35,7 +35,8 @@
 
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success" (click)="getHouseHoldParticipants()">Submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" (click)="createHouseHold()">Submit</button>
         </div>
     </div>
 </div>

@@ -10,5 +10,6 @@ export interface IParticipant{
     gadget: string,
     enough: string,
     enjoy: string,
-    misc: string
+    misc: string,
+    isChecked: boolean
 }

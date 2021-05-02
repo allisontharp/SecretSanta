@@ -79,4 +79,16 @@ export class ApiService {
     await this.insertRow(res[0]);
   }
 
+  async updateGroup(group: IGroup): Promise<void> {
+    let row = <IDynamorow>{
+      tableName: environment.dynamoDbTableName,
+      groupName: group.groupName,
+      userName: "General",
+      households: group.houseHolds,
+      jsonObject: JSON.stringify(group),
+      guid: group.guid
+    }
+    await this.insertRow(row)
+  }
+
 }

@@ -74,7 +74,8 @@ export class GroupPageComponent implements OnInit {
         gadget: j.gadget,
         enough: j.enough, 
         enjoy: j.enjoy,
-        misc: j.misc
+        misc: j.misc,
+        isChecked: false
       }
       this.participants.push(participant)
     });
