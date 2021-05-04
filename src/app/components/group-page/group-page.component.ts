@@ -41,7 +41,6 @@ export class GroupPageComponent implements OnInit {
     let groups = JSON.parse(session.groups)
     let group = groups.filter(g => g.guid == this.group.guid)
     this.isAdmin = group[0]["isAdmin"]
-    console.log(this.userGuid)
   }
 
   async getGroup(): Promise<void>{  
@@ -66,7 +65,6 @@ export class GroupPageComponent implements OnInit {
       projection: ['userName', 'guid', 'jsonObject',]
     }
     let res = await this._apiService.getRows(row);
-    console.log(res)
     res.forEach(element => {
       let participant: IParticipant;
       let j = JSON.parse(element.jsonObject)
@@ -91,9 +89,6 @@ export class GroupPageComponent implements OnInit {
 
   hasAnsweredQuestionaire() {
     let p = this.participants.find(x => x.guid == this.userGuid);
-    console.log(p)
-    console.log(this.participants)
-    console.log(this.userGuid)
     if(p){
       this.answerUpdate = 'Update';
       this.participant = p;

@@ -22,7 +22,6 @@ export class questionaireComponent implements OnInit {
   }
 
   async submit() {
-    console.log(this.participant)
     let ls = JSON.parse(localStorage.getItem("SessionUser"))
     let guid = ls["guid"]
     let email = await this.getUserEmail(guid)

@@ -13,7 +13,6 @@ export class CreateHouseholdComponent implements OnInit {
   householdName: string;
   @Input() set participants(data: IParticipant[]) {
     this.part = data;
-    console.log(data)
   };
   @Input() group!: IGroup;
   houseHolds: {name: String, participantGUIDs: String[]}[];

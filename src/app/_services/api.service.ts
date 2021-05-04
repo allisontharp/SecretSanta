@@ -53,7 +53,6 @@ export class ApiService {
       guid: groupGuid,
       isAdmin: isAdmin
     }
-    console.log(currentGroups)
     if (currentGroups.length == 0) {
       session.groups = JSON.stringify([currentGroup]);
     } else {
@@ -93,7 +92,6 @@ export class ApiService {
 
   generateMatches(body: any): any {
     const url = this.apiUrl + '/generateMatches';
-    console.log(JSON.stringify(body))
     return this.http.post(url, body, { responseType: 'json' }).toPromise();
   }
 
