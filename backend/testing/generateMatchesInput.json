@@ -1,16 +1,26 @@
 {
 	"group": {
-		"groupName": "test guid",
+		"groupName": "test group session 4",
 		"groupDescription": "asdkfj",
-		"groupDeadline": "",
-		"dollarMinimum": "10",
-		"dollarMaximum": "30",
-		"guid": "e8ed6394-d573-4c7d-b7bb-7467f8c93c09",
-		"houseHolds": "[{\"name\":\"brewer\",\"participantNames\":[\"Allison\",\"Troy\"]}]"
+		"groupDeadline": "2020-03-01",
+		"guid": "75325fc7-3c05-4677-a06a-e4c4e1b3b93b",
+		"houseHolds": "[{\"name\":\"brewer2\",\"participantGUIDs\":[\"b2690798-be75-4fd9-a27c-4963d5df59a6\",\"18f894a5-6fe7-44a6-87cb-13120239562c\"]},{\"name\":\"terry\",\"participantGUIDs\":[\"154fd99d-b678-4fee-8620-9b61aae1860d\",\"27264635-544f-44d8-9e9c-f5c9128fa6ac\"]}]"
 	},
 	"participants": [{
+		"guid": "b2690798-be75-4fd9-a27c-4963d5df59a6",
 		"name": "Allison",
-		"color": "green",
+		"color": "gray",
+		"email": "frogforums@gmail.com",
+		"food": "mexican, indian",
+		"scent": "vanilla",
+		"team": "fuel, bolts",
+		"store": "lego",
+		"gadget": "home automation",
+		"isChecked": false
+	}, {
+		"guid": "18f894a5-6fe7-44a6-87cb-13120239562c",
+		"name": "Troy",
+		"color": "gray",
 		"email": "mad4hatter7@gmail.com",
 		"food": "mexican, indian",
 		"scent": "vanilla",
@@ -20,12 +30,28 @@
 		"enough": "board games",
 		"isChecked": false
 	}, {
-		"name": "Troy",
+		"guid": "154fd99d-b678-4fee-8620-9b61aae1860d",
+		"name": "allison terry",
+		"color": "gray",
 		"email": "a@a.com",
 		"food": "mexican, indian",
 		"scent": "vanilla",
 		"team": "fuel, bolts",
 		"store": "lego",
-		"isChecked": false
+		"gadget": "anything electronic",
+		"enough": "board games",
+		"isChecked": true
+	}, {
+		"guid": "27264635-544f-44d8-9e9c-f5c9128fa6ac",
+		"name": "jason",
+		"color": "blue",
+		"email": "b@b.com",
+		"food": "mexican, indian",
+		"scent": "any",
+		"team": "fuel, bolts",
+		"store": "duluth",
+		"gadget": "anything electronic",
+		"enjoy": "bourbon",
+		"isChecked": true
 	}]
 }

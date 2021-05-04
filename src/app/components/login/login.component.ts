@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
   async login(): Promise<void>{
     let row =  {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'guid', operation: 'equals', value: this.accountGuid}],
+      filters: [{field: 'guid', operation: 'equals', value: this.accountGuid},
+    {field: 'groupName', operation: 'equals', value:'login'}],
       projection: ['jsonObject']
     }
     let res = await this._apiService.getRows(row);

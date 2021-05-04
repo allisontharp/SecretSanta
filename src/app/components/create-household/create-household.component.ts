@@ -16,7 +16,7 @@ export class CreateHouseholdComponent implements OnInit {
     console.log(data)
   };
   @Input() group!: IGroup;
-  houseHolds: {name: String, participantNames: String[]}[];
+  houseHolds: {name: String, participantGUIDs: String[]}[];
   houseHoldParticipants: {name: String, isChecked: boolean}[] = [];
 
   constructor(
@@ -44,11 +44,11 @@ export class CreateHouseholdComponent implements OnInit {
       return participant.isChecked == true;
     });
 
-    let participantNames = inGroup.map(a => a.name);
+    let participantGUIDs = inGroup.map(a => a.guid);
 
     let houseHold = {
       name: this.householdName,
-      participantNames: participantNames
+      participantGUIDs: participantGUIDs
     };
 
     this.houseHolds.push(houseHold);
