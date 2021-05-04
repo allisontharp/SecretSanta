@@ -18,7 +18,7 @@ export class GroupPageComponent implements OnInit {
   isAdmin: boolean = false;
   answerUpdate: string = 'Answer';
   userGuid: string;
-  participant: IParticipant;
+  participant: IParticipant = <IParticipant>{};
 
   constructor(
     private route: ActivatedRoute,
@@ -90,7 +90,6 @@ export class GroupPageComponent implements OnInit {
   }
 
   hasAnsweredQuestionaire() {
-
     let p = this.participants.find(x => x.guid == this.userGuid);
     console.log(p)
     console.log(this.participants)
