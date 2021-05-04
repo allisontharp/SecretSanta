@@ -3,7 +3,7 @@
     <br>
     <h3>{{group.groupName}}</h3>
     <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#questionaireModal">
-        Answer Questionaire
+        {{answerUpdate}} Questionaire
     </button>
     <!-- TODO: Update to 'Update questionaire' if user has filled it out already -->
     <b>Exchange Date: </b>{{group.groupDeadline | date}}<br>
@@ -18,27 +18,29 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="isAdmin; then admin" >
+    <div *ngIf="isAdmin; then admin">
     </div>
 </div>
 
 <!-- Questioniare Modal -->
-<div class="modal fade" id="questionaireModal" tabindex="-1" aria-labelledby="questionaireModalLabel" aria-hidden="true">
-    <app-questionaire [group]="group"></app-questionaire>
+<div class="modal fade" id="questionaireModal" tabindex="-1" aria-labelledby="questionaireModalLabel"
+    aria-hidden="true">
+    <app-questionaire [group]="group" [participant]="participant"></app-questionaire>
 </div>
 
 <ng-template #admin>
     <hr>
     <h3>Admin Portal</h3>
-    
+
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createHouseholdModal">
         Create Household
     </button> &nbsp;
     <button type="submit" class="btn btn-primary" (click)="generateMatches()">Generate Matches</button>
-    
+
 </ng-template>
 
 <!-- Create Group Modal -->
-<div class="modal fade" id="createHouseholdModal" tabindex="-1" aria-labelledby="createHouseholdModalLabel" aria-hidden="true">
+<div class="modal fade" id="createHouseholdModal" tabindex="-1" aria-labelledby="createHouseholdModalLabel"
+    aria-hidden="true">
     <app-create-household [participants]="participants" [group]="group"></app-create-household>
 </div>

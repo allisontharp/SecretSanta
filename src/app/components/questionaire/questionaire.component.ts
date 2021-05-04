@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./questionaire.component.css']
 })
 export class questionaireComponent implements OnInit {
-  participant: IParticipant = <IParticipant> {};
+  @Input() participant: IParticipant = <IParticipant> {};
   @Input() group: IGroup;
   
   constructor(

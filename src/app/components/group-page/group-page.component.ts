@@ -16,6 +16,9 @@ export class GroupPageComponent implements OnInit {
   group: IGroup;
   participants: IParticipant[] = [];
   isAdmin: boolean = false;
+  answerUpdate: string = 'Answer';
+  userGuid: string;
+  participant: IParticipant;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,13 +32,16 @@ export class GroupPageComponent implements OnInit {
     await this.getGroup();
     await this.getParticipants();
     this.getLocalStorage();
+    this.hasAnsweredQuestionaire();
   }
 
   getLocalStorage() {
     let session = JSON.parse(localStorage.getItem("SessionUser"));
+    this.userGuid = session.guid;
     let groups = JSON.parse(session.groups)
     let group = groups.filter(g => g.guid == this.group.guid)
     this.isAdmin = group[0]["isAdmin"]
+    console.log(this.userGuid)
   }
 
   async getGroup(): Promise<void>{  
@@ -81,6 +87,18 @@ export class GroupPageComponent implements OnInit {
       }
       this.participants.push(participant)
     });
+  }
+
+  hasAnsweredQuestionaire() {
+
+    let p = this.participants.find(x => x.guid == this.userGuid);
+    console.log(p)
+    console.log(this.participants)
+    console.log(this.userGuid)
+    if(p){
+      this.answerUpdate = 'Update';
+      this.participant = p;
+    }
   }
 
   generateMatches(){

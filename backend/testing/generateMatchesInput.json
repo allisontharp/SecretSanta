@@ -40,7 +40,7 @@
 		"store": "lego",
 		"gadget": "anything electronic",
 		"enough": "board games",
-		"isChecked": true
+		"isChecked": false
 	}, {
 		"guid": "27264635-544f-44d8-9e9c-f5c9128fa6ac",
 		"name": "jason",
@@ -52,6 +52,17 @@
 		"store": "duluth",
 		"gadget": "anything electronic",
 		"enjoy": "bourbon",
-		"isChecked": true
+		"isChecked": false
+	}, {
+		"guid": "5cfbc407-6fc7-4212-8336-6123f0bf654b",
+		"name": "sam",
+		"color": "blue",
+		"email": "c@c.com",
+		"food": "gummy bears",
+		"scent": "any",
+		"team": "none",
+		"store": "lego",
+		"gadget": "home automation",
+		"isChecked": false
 	}]
 }

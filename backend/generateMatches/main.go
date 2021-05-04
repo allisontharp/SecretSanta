@@ -124,12 +124,11 @@ func generateSecretSantas(group Group, participants []Participant, tryNumber int
 			if len(possibleMatches) > 0 {
 				randomIndex := rand.Intn(len(possibleMatches))
 				match := possibleMatches[randomIndex]
-				matchDictionary[p.Name] = match // TODO: Update to be guid later
+				matchDictionary[p.Guid] = match
 				participantsWithoutSanta = removeParticipantFromPossibleMatches(participantsWithoutSanta, match.Guid)
 			}
 
 			if validMatches == true && p == participants[len(participants)-1] {
-				fmt.Printf("---> INSIDE CONTINUE BLOCK <---\n")
 				validMatches = false
 				continue
 			}
