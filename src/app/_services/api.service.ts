@@ -90,9 +90,10 @@ export class ApiService {
     await this.insertRow(row)
   }
 
-  generateMatches(body: any): any {
+  async generateMatches(body: any): Promise<any> {
     const url = this.apiUrl + '/generateMatches';
-    return this.http.post(url, body, { responseType: 'json' }).toPromise();
+    let matches = await this.http.post(url, body, { responseType: 'json' }).toPromise();
+    console.log(matches)
   }
 
 }

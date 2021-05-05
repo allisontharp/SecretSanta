@@ -95,12 +95,12 @@ export class GroupPageComponent implements OnInit {
     }
   }
 
-  generateMatches(){
+  async generateMatches(){
     let body = {
       group: this.group,
       participants: this.participants
     }
-    this._apiService.generateMatches(body)
+    await this._apiService.generateMatches(body)
   }
 
 

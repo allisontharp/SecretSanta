@@ -3,11 +3,16 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math/rand"
-	"os"
+	"net/http"
 	"time"
+
+	"github.com/apex/gateway"
+	"github.com/gorilla/mux"
 )
 
 type Group struct {
@@ -46,14 +51,53 @@ type RequestBody struct {
 	Participants []Participant `json:"participants"`
 }
 
-func readRequestBody(body []byte) (RequestBody, error) {
-	var requestBody RequestBody
-	err := json.Unmarshal(body, &requestBody)
-	if err != nil {
-		return requestBody, err
-	}
-	return requestBody, nil
+// example from asanchez.dev/blob/cors-golang-options
+func CORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// set headers
+		(w).Header().Set("Access-Control-Allow-Origin", "*")
+		(w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+		(w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		fmt.Println("ok")
+
+		next.ServeHTTP(w, r)
+		return
+	})
 }
+
+func getPostBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
+	if r.Method != "POST" {
+		fmt.Println(r.Method)
+		w.WriteHeader(400)
+		fmt.Printf("Not POST method!\n")
+		return nil, errors.New("Not post method!")
+	}
+
+	// get the body of the POST request
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("Error reading post body: %v", err)
+		w.WriteHeader(500)
+		return nil, err
+	}
+
+	return reqBody, nil
+}
+
+// func readRequestBody(body []byte) (RequestBody, error) {
+// 	var requestBody RequestBody
+// 	err := json.Unmarshal(body, &requestBody)
+// 	if err != nil {
+// 		return requestBody, err
+// 	}
+// 	return requestBody, nil
+// }
 
 func removeParticipantFromPossibleMatches(participantsWithoutSanta []Participant, participantGUID string) []Participant {
 	var possibleMatches []Participant
@@ -152,21 +196,60 @@ func pprintMatchDictionary(matchDictionary map[string]Participant) {
 	}
 }
 
-func main() {
-	fmt.Printf("main started!\n")
-	jsonFile, err := os.Open("../testing/generateMatchesInput.json")
+func generateMatchesHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("generateMatches called\n")
+
+	var requestBody RequestBody
+
+	reqBody, err := getPostBody(w, r)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error getting post body: %v", err)
+		w.WriteHeader(400)
+		return
 	}
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	requestBody, err := readRequestBody(byteValue)
-	// fmt.Printf("\n\nHouseholds:\n%v\n", requestBody.Group.Households)
+
+	err = json.Unmarshal(reqBody, &requestBody)
+	if err != nil {
+		fmt.Printf("Error unmarshalling post body: %v", err)
+		w.WriteHeader(400)
+		return
+	}
 
 	matchDictionary, err := generateSecretSantas(requestBody.Group, requestBody.Participants, 1)
 	if err != nil {
-		fmt.Printf("Error with generateSecretSanta: %v", err)
+		fmt.Printf("Error generating matches: %v", err)
+	}
+
+	jData, err := json.Marshal(matchDictionary)
+	if err != nil {
+		fmt.Printf("Error marshalling matchDictionary: %v", err)
+		w.WriteHeader(400)
 		return
 	}
-	pprintMatchDictionary(matchDictionary)
 
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jData)
+}
+
+func main() {
+	// fmt.Printf("main started!\n")
+	// jsonFile, err := os.Open("../testing/generateMatchesInput.json")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// byteValue, _ := ioutil.ReadAll(jsonFile)
+	// requestBody, err := readRequestBody(byteValue)
+	// // fmt.Printf("\n\nHouseholds:\n%v\n", requestBody.Group.Households)
+
+	// matchDictionary, err := generateSecretSantas(requestBody.Group, requestBody.Participants, 1)
+	// if err != nil {
+	// 	fmt.Printf("Error with generateSecretSanta: %v", err)
+	// 	return
+	// }
+	// pprintMatchDictionary(matchDictionary)
+	r := mux.NewRouter()
+	r.Use(CORS)
+	r.HandleFunc("/generateMatches", generateMatchesHandler)
+	http.Handle("/", r)
+	log.Fatal(gateway.ListenAndServe(":10000", nil))
 }

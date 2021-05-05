@@ -199,5 +199,4 @@ func main() {
 	r.HandleFunc("/getRows", getRowsHandler)
 	http.Handle("/", r)
 	log.Fatal(gateway.ListenAndServe(":10000", nil))
-
 }
