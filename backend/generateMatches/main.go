@@ -2,15 +2,18 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"net/smtp"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/apex/gateway"
@@ -172,6 +175,7 @@ func generateSecretSantas(group Group, participants []Participant, tryNumber int
 				randomIndex := rand.Intn(len(possibleMatches))
 				match := possibleMatches[randomIndex]
 				matchDictionary[p.Guid] = match
+				matchDictionary[p.Guid+"-santa"] = p
 				participantsWithoutSanta = removeParticipantFromPossibleMatches(participantsWithoutSanta, match.Guid)
 			}
 
@@ -183,7 +187,7 @@ func generateSecretSantas(group Group, participants []Participant, tryNumber int
 	}
 
 	fmt.Printf("len(matchDictionary)=%v\nlen(participants)=%v\n", len(matchDictionary), len(participants))
-	if len(matchDictionary) == len(participants) {
+	if len(matchDictionary) == 2*len(participants) {
 		return matchDictionary, nil
 	} else {
 		tryNumber += 1
@@ -199,17 +203,50 @@ func pprintMatchDictionary(matchDictionary map[string]Participant) {
 	}
 }
 
-func sendEmail(from string, pass string, to string) error {
-	body := "test body"
-	msg := "From: " + from + "\n" +
-		"To: " + to + "\n" +
-		"Subject: Hello there\n\n" +
-		body
+func sendEmail(to string, toName string, participant Participant, group Group) error {
+	from := os.Getenv("userName")
+	pass := os.Getenv("password")
+	t, err := template.New("emailbody").Parse(os.Getenv("template"))
+	var body bytes.Buffer
 
-	err := smtp.SendMail("smtp.gmail.com:587",
+	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+	body.Write([]byte(fmt.Sprintf("Subject: Your Secret Santa Match Is In! \n%s\n\n", mimeHeaders)))
+
+	t.Execute(&body, struct {
+		Santa         string
+		Name          string
+		Color         string
+		Food          string
+		Team          string
+		Scent         string
+		Store         string
+		Gadget        string
+		Enough        string
+		Enjoy         string
+		Misc          string
+		GroupDeadline string
+		GroupMinimum  string
+		GroupMaximum  string
+	}{
+		Santa:         toName,
+		Name:          participant.Name,
+		Color:         participant.Color,
+		Food:          participant.Food,
+		Team:          participant.Team,
+		Scent:         participant.Scent,
+		Store:         participant.Store,
+		Gadget:        participant.Gadget,
+		Enough:        participant.Enough,
+		Enjoy:         participant.Enjoy,
+		Misc:          participant.Misc,
+		GroupDeadline: group.GroupDeadline,
+		GroupMinimum:  group.DollarMinimum,
+		GroupMaximum:  group.DollarMaximum,
+	})
+
+	err = smtp.SendMail("smtp.gmail.com:587",
 		smtp.PlainAuth("", from, pass, "smtp.gmail.com"),
-		from, []string{to}, []byte(msg))
-
+		from, []string{to}, body.Bytes())
 	if err != nil {
 		log.Printf("smtp error: %s", err)
 		return err
@@ -249,14 +286,18 @@ func generateMatchesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// from, password, err := getCreds()
-	fmt.Printf("username: '%v' | password: '%v'\n", os.Getenv("userName"), os.Getenv("password"))
-	err = sendEmail(os.Getenv("userName"), os.Getenv("password"), "allison.tharp@gmail.com")
+	for santa, match := range matchDictionary {
+		if !strings.Contains(santa, "-santa") {
+			santaInfo := matchDictionary[santa+"-santa"]
+			err = sendEmail("allison.tharp@gmail.com", santaInfo.Name, match, requestBody.Group)
+		}
+	}
 	if err != nil {
 		fmt.Printf("Error sending email: %v", err)
 		w.WriteHeader(502)
 		return
 	}
+	fmt.Printf("Emails were successfully sent!\n")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jData)
 }

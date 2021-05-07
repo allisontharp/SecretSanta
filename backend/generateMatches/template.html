@@ -1,8 +1,24 @@
 <!-- template.html -->
 <!DOCTYPE html>
 <html>
+
 <body>
-    <h3>Name:</h3><span>{{.Name}}</span><br/><br/>
-    <h3>Email:</h3><span>{{.Message}}</span><br/>
+    <p><strong>Shh!</strong></p>
+    <p>Hey {{.Santa}}, can you keep a secret?&nbsp; You are {{.Name}}'s secret santa!</p>
+    <p>Here are the answers they provided to the questionaire:</p>
+    <p><strong>Favorite color:</strong> {{.Color}}</p>
+    <p><strong>Favorite food/candy/snack:</strong> {{.Food}}</p>
+    <p><strong>Favorite team and/or fictional character:</strong> {{.Team}}</p>
+    <p><strong>Favorite scent for the home:</strong> {{.Scent}}</p>
+    <p><strong>Stores they love just about everything about:</strong> {{.Store}}</p>
+    <p><strong>Gadgets or tools they want:</strong> {{.Gadget}}</p>
+    <p><strong>They have enough:</strong> {{.Enough}}</p>
+    <p><strong>They think they'd really enjoy:</strong> {{.Enjoy}}</p>
+    <p><strong>Anything else:</strong> {{.Misc}}</p>
+    <p>&nbsp;</p>
+    <p>Remember, we are shooting to <strong>trade gifts on {{.GroupDeadline}}</strong> and are trying to spend between ${{.GroupMinimum}} and ${{.GroupMaximum}}.</p>
+    <hr />
+    <p><sub>This email, as well as your match, was generated programmatically.  You should not have been matched with someone in your own household.  If you did, please let the group know so that matches can be regenerated.&nbsp; </sub></p>
 </body>
+
 </html>

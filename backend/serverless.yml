@@ -78,6 +78,7 @@ functions:
     environment:
       userName: ${file(./generateMatches/creds.json):userName}
       password: ${file(./generateMatches/creds.json):password}
+      template: ${file(./generateMatches/template.html)}
     events:
       - http:
           path: generateMatches
