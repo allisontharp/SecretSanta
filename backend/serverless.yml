@@ -75,6 +75,9 @@ functions:
           cors: true
   generateMatches:
     handler: bin/generateMatches
+    environment:
+      userName: ${file(./generateMatches/creds.json):userName}
+      password: ${file(./generateMatches/creds.json):password}
     events:
       - http:
           path: generateMatches

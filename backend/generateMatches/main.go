@@ -9,6 +9,8 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/smtp"
+	"os"
 	"time"
 
 	"github.com/apex/gateway"
@@ -51,6 +53,16 @@ type RequestBody struct {
 	Participants []Participant `json:"participants"`
 }
 
+// smtpServer data to smtp server
+type smtpServer struct {
+	host string
+	port string
+} // Address URI to smtp server
+
+func (s *smtpServer) Address() string {
+	return s.host + ":" + s.port
+}
+
 // example from asanchez.dev/blob/cors-golang-options
 func CORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -89,15 +101,6 @@ func getPostBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
 
 	return reqBody, nil
 }
-
-// func readRequestBody(body []byte) (RequestBody, error) {
-// 	var requestBody RequestBody
-// 	err := json.Unmarshal(body, &requestBody)
-// 	if err != nil {
-// 		return requestBody, err
-// 	}
-// 	return requestBody, nil
-// }
 
 func removeParticipantFromPossibleMatches(participantsWithoutSanta []Participant, participantGUID string) []Participant {
 	var possibleMatches []Participant
@@ -196,6 +199,25 @@ func pprintMatchDictionary(matchDictionary map[string]Participant) {
 	}
 }
 
+func sendEmail(from string, pass string, to string) error {
+	body := "test body"
+	msg := "From: " + from + "\n" +
+		"To: " + to + "\n" +
+		"Subject: Hello there\n\n" +
+		body
+
+	err := smtp.SendMail("smtp.gmail.com:587",
+		smtp.PlainAuth("", from, pass, "smtp.gmail.com"),
+		from, []string{to}, []byte(msg))
+
+	if err != nil {
+		log.Printf("smtp error: %s", err)
+		return err
+	}
+
+	return nil
+}
+
 func generateMatchesHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("generateMatches called\n")
 
@@ -227,26 +249,19 @@ func generateMatchesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// from, password, err := getCreds()
+	fmt.Printf("username: '%v' | password: '%v'\n", os.Getenv("userName"), os.Getenv("password"))
+	err = sendEmail(os.Getenv("userName"), os.Getenv("password"), "allison.tharp@gmail.com")
+	if err != nil {
+		fmt.Printf("Error sending email: %v", err)
+		w.WriteHeader(502)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jData)
 }
 
 func main() {
-	// fmt.Printf("main started!\n")
-	// jsonFile, err := os.Open("../testing/generateMatchesInput.json")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// byteValue, _ := ioutil.ReadAll(jsonFile)
-	// requestBody, err := readRequestBody(byteValue)
-	// // fmt.Printf("\n\nHouseholds:\n%v\n", requestBody.Group.Households)
-
-	// matchDictionary, err := generateSecretSantas(requestBody.Group, requestBody.Participants, 1)
-	// if err != nil {
-	// 	fmt.Printf("Error with generateSecretSanta: %v", err)
-	// 	return
-	// }
-	// pprintMatchDictionary(matchDictionary)
 	r := mux.NewRouter()
 	r.Use(CORS)
 	r.HandleFunc("/generateMatches", generateMatchesHandler)

@@ -48,3 +48,5 @@ src/environments/environment.ts
 src/environments/environment.ts
 src/app/components/login/login.component.ts
 src/environments/environment.prod.ts
+backend/testing/creds.json
+backend/generateMatches/creds.json
