@@ -1,7 +1,7 @@
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="questionaireModal">Join {{group.groupName}}</h5>
+            <h5 class="modal-title" id="questionnaireModal">Join {{group.groupName}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -24,7 +24,9 @@
                         <label for="participantColor">Favorite Color</label>
                         <input type="text" class="form-control" [(ngModel)]="participant.color" name="participantColor">
                     </div>
+                </div>
 
+                <div class="row">
                     <div class="col">
                         <label for="participantFood">Favorite food/candy/snack</label>
                         <input type="text" class="form-control" [(ngModel)]="participant.food" name="participantFood">
@@ -36,7 +38,9 @@
                         <label for="participantTeam">Favorite sports team(s) and/or fictional character</label>
                         <input type="text" class="form-control" [(ngModel)]="participant.team" name="participantTeam">
                     </div>
+                </div>
 
+                <div class="row">
                     <div class="col">
                         <label for="participantScent">Favorite scent for the home</label>
                         <input type="text" class="form-control" [(ngModel)]="participant.scent" name="participantScent">
@@ -48,19 +52,25 @@
                         <label for="participantStore">Stores I love just about everything</label>
                         <input type="text" class="form-control" [(ngModel)]="participant.store" name="participantStore">
                     </div>
+                </div>
 
+                <div class="row">
                     <div class="col">
                         <label for="participantGadget">Gadgets/tools I want</label>
-                        <input type="text" class="form-control" [(ngModel)]="participant.gadget" name="participantGadget">
+                        <input type="text" class="form-control" [(ngModel)]="participant.gadget"
+                            name="participantGadget">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
                         <label for="participantEnough">Thanks, but I have enough</label>
-                        <input type="text" class="form-control" [(ngModel)]="participant.enough" name="participantEnough">
+                        <input type="text" class="form-control" [(ngModel)]="participant.enough"
+                            name="participantEnough">
                     </div>
+                </div>
 
+                <div class="row">
                     <div class="col">
                         <label for="participantEnjoy">I think I would really enjoy</label>
                         <input type="text" class="form-control" [(ngModel)]="participant.enjoy" name="participantEnjoy">

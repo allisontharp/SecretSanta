@@ -144,11 +144,12 @@ func removeStringFromArray(checkString string, list []string) []string {
 	return output
 }
 
-func generateSecretSantas(group Group, participants []Participant, tryNumber int) (map[string]Participant, error) {
+func generateSecretSantas(group Group, participants []Participant, tryNumber int) (map[string]Participant, map[string]Participant, error) {
 	var households []Household
 	var possibleMatches []Participant
 	json.Unmarshal([]byte(group.Households), &households)
 	matchDictionary := make(map[string]Participant) // santa: child
+	santaDictionary := make(map[string]Participant)
 	participantsWithoutSanta := participants
 	maxTries := 10
 	validMatches := true
@@ -159,10 +160,8 @@ func generateSecretSantas(group Group, participants []Participant, tryNumber int
 		rand.Seed(time.Now().UnixNano())
 		rand.Shuffle(len(participants), func(i, j int) { participants[i], participants[j] = participants[j], participants[i] })
 		for _, p := range participants {
-			// fmt.Printf("\n\n%v\n", p.Name)
 			// Remove participant from possible matches
 			possibleMatches = removeParticipantFromPossibleMatches(participantsWithoutSanta, p.Guid)
-			// fmt.Printf("\tpossibleMatches:%v\n", possibleMatches)
 			// Get the other people in the household
 			householdParticipants, _ := getOtherPeopleInHousehold(households, p.Guid)
 			if len(householdParticipants) > 0 {
@@ -175,7 +174,7 @@ func generateSecretSantas(group Group, participants []Participant, tryNumber int
 				randomIndex := rand.Intn(len(possibleMatches))
 				match := possibleMatches[randomIndex]
 				matchDictionary[p.Guid] = match
-				matchDictionary[p.Guid+"-santa"] = p
+				santaDictionary[p.Guid+"-santa"] = p
 				participantsWithoutSanta = removeParticipantFromPossibleMatches(participantsWithoutSanta, match.Guid)
 			}
 
@@ -186,24 +185,26 @@ func generateSecretSantas(group Group, participants []Participant, tryNumber int
 		}
 	}
 
-	fmt.Printf("len(matchDictionary)=%v\nlen(participants)=%v\n", len(matchDictionary), len(participants))
-	if len(matchDictionary) == 2*len(participants) {
-		return matchDictionary, nil
+	fmt.Printf("len(matchDictionary)=%v | len(participants)=%v\n", len(matchDictionary), len(participants))
+	if len(matchDictionary) == len(participants) {
+		pprintMatchDictionary(matchDictionary, santaDictionary)
+		return matchDictionary, santaDictionary, nil
 	} else {
 		tryNumber += 1
-		_, _ = generateSecretSantas(group, participants, tryNumber)
+		_, _, _ = generateSecretSantas(group, participants, tryNumber)
 	}
-	return make(map[string]Participant), nil
+	return make(map[string]Participant), make(map[string]Participant), nil
 }
 
-func pprintMatchDictionary(matchDictionary map[string]Participant) {
+func pprintMatchDictionary(matchDictionary map[string]Participant, santaDictionary map[string]Participant) {
 	fmt.Printf("\n")
 	for key, value := range matchDictionary {
-		fmt.Printf("%v gets %v\n", key, value.Name)
+		fmt.Printf("%v gets %v\n", santaDictionary[key+"-santa"].Name, value.Name)
 	}
 }
 
 func sendEmail(to string, toName string, participant Participant, group Group) error {
+	fmt.Printf("Sending email to %v\n", toName)
 	from := os.Getenv("userName")
 	pass := os.Getenv("password")
 	t, err := template.New("emailbody").Parse(os.Getenv("template"))
@@ -252,6 +253,7 @@ func sendEmail(to string, toName string, participant Participant, group Group) e
 		return err
 	}
 
+	fmt.Printf("Email successfully sent to %v\n", toName)
 	return nil
 }
 
@@ -274,7 +276,7 @@ func generateMatchesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	matchDictionary, err := generateSecretSantas(requestBody.Group, requestBody.Participants, 1)
+	matchDictionary, santaDictionary, err := generateSecretSantas(requestBody.Group, requestBody.Participants, 1)
 	if err != nil {
 		fmt.Printf("Error generating matches: %v", err)
 	}
@@ -288,8 +290,8 @@ func generateMatchesHandler(w http.ResponseWriter, r *http.Request) {
 
 	for santa, match := range matchDictionary {
 		if !strings.Contains(santa, "-santa") {
-			santaInfo := matchDictionary[santa+"-santa"]
-			err = sendEmail("allison.tharp@gmail.com", santaInfo.Name, match, requestBody.Group)
+			santaInfo := santaDictionary[santa+"-santa"]
+			err = sendEmail(santaInfo.Email, santaInfo.Name, match, requestBody.Group)
 		}
 	}
 	if err != nil {

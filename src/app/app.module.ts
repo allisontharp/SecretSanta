@@ -14,7 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthguardService } from './_services/authguard.service';
 import { JoinExistingComponent } from './components/join-existing/join-existing.component';
 import { GroupPageComponent } from './components/group-page/group-page.component';
-import { questionaireComponent } from './components/questionaire/questionaire.component';
+import { questionnaireComponent } from './components/questionnaire/questionnaire.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateHouseholdComponent } from './components/create-household/create-household.component';
 
@@ -30,7 +30,7 @@ import { CreateHouseholdComponent } from './components/create-household/create-h
     LoginComponent,
     JoinExistingComponent,
     GroupPageComponent,
-    questionaireComponent,
+    questionnaireComponent,
     CreateHouseholdComponent,
   ],
   imports: [

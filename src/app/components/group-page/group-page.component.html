@@ -2,10 +2,10 @@
 <div class="m20">
     <br>
     <h3>{{group.groupName}}</h3>
-    <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#questionaireModal">
-        {{answerUpdate}} Questionaire
+    <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#questionnaireModal">
+        {{answerUpdate}} questionnaire
     </button>
-    <!-- TODO: Update to 'Update questionaire' if user has filled it out already -->
+    <!-- TODO: Update to 'Update questionnaire' if user has filled it out already -->
     <b>Exchange Date: </b>{{group.groupDeadline | date}}<br>
     <b>Spending Limits: </b>${{group.dollarMinimum}} - ${{group.dollarMaximum}}<br>
     <b>Additional Rules: </b>{{group.groupDescription}}<br>
@@ -23,9 +23,9 @@
 </div>
 
 <!-- Questioniare Modal -->
-<div class="modal fade" id="questionaireModal" tabindex="-1" aria-labelledby="questionaireModalLabel"
+<div class="modal fade" id="questionnaireModal" tabindex="-1" aria-labelledby="questionnaireModalLabel"
     aria-hidden="true">
-    <app-questionaire [group]="group" [participant]="participant"></app-questionaire>
+    <app-questionnaire [group]="group" [participant]="participant"></app-questionnaire>
 </div>
 
 <ng-template #admin>

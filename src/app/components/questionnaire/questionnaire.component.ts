@@ -6,11 +6,11 @@ import { ApiService } from 'src/app/_services/api.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-questionaire',
-  templateUrl: './questionaire.component.html',
-  styleUrls: ['./questionaire.component.css']
+  selector: 'app-questionnaire',
+  templateUrl: './questionnaire.component.html',
+  styleUrls: ['./questionnaire.component.css']
 })
-export class questionaireComponent implements OnInit {
+export class questionnaireComponent implements OnInit {
   @Input() participant: IParticipant = <IParticipant> {};
   @Input() group: IGroup;
   
@@ -36,7 +36,7 @@ export class questionaireComponent implements OnInit {
     };
     await this._apiService.insertRow(row)
 
-    document.getElementById('questionaireModal').click()
+    document.getElementById('questionnaireModal').click()
   }
 
   async getUserEmail(guid: string){

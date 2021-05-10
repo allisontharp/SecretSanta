@@ -32,7 +32,7 @@ export class GroupPageComponent implements OnInit {
     await this.getGroup();
     await this.getParticipants();
     this.getLocalStorage();
-    this.hasAnsweredQuestionaire();
+    this.hasAnsweredquestionnaire();
   }
 
   getLocalStorage() {
@@ -87,7 +87,7 @@ export class GroupPageComponent implements OnInit {
     });
   }
 
-  hasAnsweredQuestionaire() {
+  hasAnsweredquestionnaire() {
     let p = this.participants.find(x => x.guid == this.userGuid);
     if(p){
       this.answerUpdate = 'Update';

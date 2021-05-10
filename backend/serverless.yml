@@ -75,6 +75,7 @@ functions:
           cors: true
   generateMatches:
     handler: bin/generateMatches
+    timeout: 60
     environment:
       userName: ${file(./generateMatches/creds.json):userName}
       password: ${file(./generateMatches/creds.json):password}
