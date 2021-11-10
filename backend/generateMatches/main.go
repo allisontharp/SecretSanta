@@ -42,6 +42,7 @@ type Participant struct {
 	Gadget    string `json:"gadget"`
 	Enough    string `json:"enough"`
 	Enjoy     string `json:"enjoy"`
+	Homemade  bool   `json:"homemade"`
 	Misc      string `json:"misc"`
 	IsChecked bool   `json:"isChecked"` // need to just not pass this but lazy..
 }
@@ -224,6 +225,7 @@ func sendEmail(to string, toName string, participant Participant, group Group) e
 		Gadget        string
 		Enough        string
 		Enjoy         string
+		Homemade      bool
 		Misc          string
 		GroupDeadline string
 		GroupMinimum  string
@@ -239,6 +241,7 @@ func sendEmail(to string, toName string, participant Participant, group Group) e
 		Gadget:        participant.Gadget,
 		Enough:        participant.Enough,
 		Enjoy:         participant.Enjoy,
+		Homemade:      participant.Homemade,
 		Misc:          participant.Misc,
 		GroupDeadline: group.GroupDeadline,
 		GroupMinimum:  group.DollarMinimum,

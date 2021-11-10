@@ -10,6 +10,7 @@ export interface IParticipant{
     gadget: string,
     enough: string,
     enjoy: string,
+    homemade: boolean,
     misc: string,
     isChecked: boolean
 }

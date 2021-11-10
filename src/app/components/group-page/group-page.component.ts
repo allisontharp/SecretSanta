@@ -80,6 +80,7 @@ export class GroupPageComponent implements OnInit {
         gadget: j.gadget,
         enough: j.enough, 
         enjoy: j.enjoy,
+        homemade: j.homemade,
         misc: j.misc,
         isChecked: false
       }

@@ -77,6 +77,11 @@
                     </div>
                 </div>
 
+                <div >
+                    <input type="checkbox" [(ngModel)]="participant.homemade" name="participantHomemade">
+                    <label for="participantHomemade" class="checkbox-label">I would enjoy a homemade gift from my Santa</label>
+                </div>
+
                 <div class="form-group">
                     <label for="participantMisc">Anything Else:</label>
                     <input type="text" class="form-control" [(ngModel)]="participant.misc" name="participantMisc">
