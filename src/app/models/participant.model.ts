@@ -1,6 +1,7 @@
-export interface IParticipant{
+export interface IParticipant {
     guid?: string,
     name: string,
+    address: string,
     email: string,
     color: string,
     food: string,

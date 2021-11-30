@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/_services/api.service';
 import { environment } from 'src/environments/environment';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -18,7 +18,7 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   async signUp(): Promise<void> {
@@ -28,10 +28,10 @@ export class SignupComponent implements OnInit {
       - Check for account under that email address
       - If none exist, create an account and email them their GUID (as well as display)
     */
-    let row =  {
+    let row = {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'groupName', operation: 'equals', value: 'login'}
-      , {field: 'userName', operation: 'equals', value: this.email}],
+      filters: [{ field: 'groupName', operation: 'equals', value: 'login' }
+        , { field: 'userName', operation: 'equals', value: this.email }],
       projection: ['userName']
     }
     let res = await this._apiService.getRows(row);
@@ -45,14 +45,34 @@ export class SignupComponent implements OnInit {
       }
       await this._apiService.insertRow(insertRow);
       this.accountCreated = true;
-    }else {
+    } else {
       this.accountExists = true;
     }
   }
 
-  copyInputMessage(inputElement){
+  copyInputMessage(inputElement) {
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);
+  }
+
+  async reset() {
+    console.log('reset')
+    let row = {
+      tableName: environment.dynamoDbTableName,
+      filters: [{ field: 'userName', operation: 'equals', value: this.email }],
+      projection: ['guid']
+    }
+    let res = await this._apiService.getRows(row);
+    if (res.length == 1) {
+      this.accountExists = false;
+    }
+
+    let body = {
+      guid: res[0].guid,
+      email: this.email
+    }
+    console.log(body)
+    await this._apiService.resetGuid(body)
   }
 }

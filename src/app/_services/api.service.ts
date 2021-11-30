@@ -96,4 +96,8 @@ export class ApiService {
     console.log(matches)
   }
 
+  async resetGuid(body: any): Promise<any> {
+    const url = this.apiUrl + '/resetGUID'
+    await this.http.post(url, body, { responseType: 'json' }).toPromise();
+  }
 }

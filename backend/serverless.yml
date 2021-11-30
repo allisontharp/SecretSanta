@@ -73,6 +73,17 @@ functions:
           path: getRows
           method: post
           cors: true
+  resetGUID:
+    handler: bin/resetGUID
+    environment:
+      userName: ${file(./generateMatches/creds.json):userName}
+      password: ${file(./generateMatches/creds.json):password}
+      template: ${file(./resetGUID/resetGuidTemplate.html)}
+    events:
+      - http:
+          path: resetGUID
+          method: post
+          cors: true
   generateMatches:
     handler: bin/generateMatches
     timeout: 60

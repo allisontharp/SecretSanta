@@ -23,11 +23,11 @@
                 <form>
                     <fieldset>
                         <div class="form-group" style="display: flex;">
-                                <input type="text" class="form-control" value="{{accountGuid}}" readonly #userinput>
-                                &nbsp;<button type="button" class="btn btn-outline-secondary" 
-                                    (click)="copyInputMessage(userinput)" value="click to copy">
-                                    <i class="fas fa-clipboard"></i>
-                                </button>
+                            <input type="text" class="form-control" value="{{accountGuid}}" readonly #userinput>
+                            &nbsp;<button type="button" class="btn btn-outline-secondary"
+                                (click)="copyInputMessage(userinput)" value="click to copy">
+                                <i class="fas fa-clipboard"></i>
+                            </button>
                         </div>
                     </fieldset>
                 </form>
@@ -35,14 +35,14 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            
+
             <div *ngIf="accountCreated; else signup">
                 <button type="button" class="btn btn-outline-primary" disabled aria-disabled="true">Sign Up</button>
             </div>
 
             <div *ngIf="accountExists" class="alert alert-dismissible alert-primary" role="alert">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                An account with this email already exists.
+                An account with this email already exists. <a role="reset" (click)="reset()">Click here to reset.</a>
             </div>
         </div>
     </div>

@@ -43,25 +43,25 @@ export class GroupPageComponent implements OnInit {
     this.isAdmin = group[0]["isAdmin"]
   }
 
-  async getGroup(): Promise<void>{  
-    let row =  {
+  async getGroup(): Promise<void> {
+    let row = {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'guid', operation: 'equals', value: this.groupGuid}],
+      filters: [{ field: 'guid', operation: 'equals', value: this.groupGuid }],
       projection: ['guid', 'jsonObject', 'houseHolds']
     }
     let res = await this._apiService.getRows(row);
-    if(res.length == 1){
+    if (res.length == 1) {
       this.group = JSON.parse(res[0].jsonObject)
       this.group.guid = res[0].guid
       this.group.houseHolds = res[0].houseHolds
     }
   }
 
-  async getParticipants(): Promise<void>{
-    let row =  {
+  async getParticipants(): Promise<void> {
+    let row = {
       tableName: environment.dynamoDbTableName,
-      filters: [{field: 'userName', operation: 'notequals', value: 'General'}
-    ,{field: 'groupName', operation: 'equals', value: this.group.groupName}],
+      filters: [{ field: 'userName', operation: 'notequals', value: 'General' }
+        , { field: 'groupName', operation: 'equals', value: this.group.groupName }],
       projection: ['userName', 'guid', 'jsonObject',]
     }
     let res = await this._apiService.getRows(row);
@@ -71,14 +71,15 @@ export class GroupPageComponent implements OnInit {
       participant = {
         guid: element.guid,
         name: j.name,
+        address: j.address,
         color: j.color,
         email: j.email,
         food: j.food,
         scent: j.scent,
         team: j.team,
-        store: j.store, 
+        store: j.store,
         gadget: j.gadget,
-        enough: j.enough, 
+        enough: j.enough,
         enjoy: j.enjoy,
         homemade: j.homemade,
         misc: j.misc,
@@ -90,13 +91,13 @@ export class GroupPageComponent implements OnInit {
 
   hasAnsweredquestionnaire() {
     let p = this.participants.find(x => x.guid == this.userGuid);
-    if(p){
+    if (p) {
       this.answerUpdate = 'Update';
       this.participant = p;
     }
   }
 
-  async generateMatches(){
+  async generateMatches() {
     let body = {
       group: this.group,
       participants: this.participants

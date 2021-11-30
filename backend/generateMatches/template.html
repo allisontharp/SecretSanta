@@ -5,26 +5,32 @@
 <body>
     <p><strong>Shh!</strong></p>
 
-<p>Hey {{.Santa}}, can you keep a secret?&nbsp; You are {{.Name}}&#39;s secret santa!</p>
+    <p>Hey {{.Santa}}, can you keep a secret?&nbsp; You are {{.Name}}&#39;s secret santa!</p>
 
-<p>Here are the answers they provided to the questionnaire:</p>
+    <p>Here are the answers they provided to the questionnaire:</p>
 
-<p><strong>Favorite color:</strong> {{.Color}}<br />
-<strong>Favorite food/candy/snack:</strong> {{.Food}}<br />
-<strong>Favorite team and/or fictional character:</strong> {{.Team}}<br />
-<strong>Favorite scent for the home:</strong> {{.Scent}}<br />
-<strong>Stores they love just about everything about:</strong> {{.Store}}<br />
-<strong>Gadgets or tools they want:</strong> {{.Gadget}}<br />
-<strong>They have enough:</strong> {{.Enough}}<br />
-<strong>They think they&#39;d really enjoy:</strong> {{.Enjoy}}<br />
-<strong>They are OK with homemade: {{.Homemade}}</strong>
-<strong>Anything else:</strong> {{.Misc}}</p>
+    <p><strong>Favorite color:</strong> {{.Color}}<br />
+        <strong>Favorite food/candy/snack:</strong> {{.Food}}<br />
+        <strong>Favorite team and/or fictional character:</strong> {{.Team}}<br />
+        <strong>Favorite scent for the home:</strong> {{.Scent}}<br />
+        <strong>Stores they love just about everything about:</strong> {{.Store}}<br />
+        <strong>Gadgets or tools they want:</strong> {{.Gadget}}<br />
+        <strong>They have enough:</strong> {{.Enough}}<br />
+        <strong>They think they&#39;d really enjoy:</strong> {{.Enjoy}}<br />
+        <strong>They are OK with homemade: {{.Homemade}}</strong>
+        <strong>Anything else:</strong> {{.Misc}}
+    </p>
 
-<p>Remember, we are hoping to <strong>trade gifts on {{.GroupDeadline}}</strong> and are trying to spend between ${{.GroupMinimum}} and ${{.GroupMaximum}}.</p>
-<p>Any updates you make to your questionare will <strong>not be sent</strong> to your santa.</p>
+    <p>{{.Name}}&#39;s address is {{.Address}}</p>
 
-<hr />
-<p><sub>This email, as well as your match, was generated programmatically. You should not have been matched with someone in your own household. If you did, please let the group know so that matches can be regenerated.&nbsp; </sub></p>
+    <p>Remember, we are hoping to <strong>trade gifts on {{.GroupDeadline}}</strong> and are trying to spend between
+        ${{.GroupMinimum}} and ${{.GroupMaximum}}.</p>
+    <p>Any updates you make to your questionare will <strong>not be sent</strong> to your santa.</p>
+
+    <hr />
+    <p><sub>This email, as well as your match, was generated programmatically. You should not have been matched with
+            someone in your own household. If you did, please let the group know so that matches can be
+            regenerated.&nbsp; </sub></p>
 </body>
 
 </html>

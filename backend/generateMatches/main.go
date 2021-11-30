@@ -33,6 +33,7 @@ type Group struct {
 type Participant struct {
 	Guid      string `json:"guid"`
 	Name      string `json:"name"`
+	Address   string `json:"address"`
 	Email     string `json:"email"`
 	Color     string `json:"color"`
 	Food      string `json:"food"`
@@ -217,6 +218,7 @@ func sendEmail(to string, toName string, participant Participant, group Group) e
 	t.Execute(&body, struct {
 		Santa         string
 		Name          string
+		Address       string
 		Color         string
 		Food          string
 		Team          string
@@ -233,6 +235,7 @@ func sendEmail(to string, toName string, participant Participant, group Group) e
 	}{
 		Santa:         toName,
 		Name:          participant.Name,
+		Address:       participant.Address,
 		Color:         participant.Color,
 		Food:          participant.Food,
 		Team:          participant.Team,
